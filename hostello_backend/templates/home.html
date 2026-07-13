@@ -1,0 +1,3464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet"/>
+    <title>HOSTELLO</title>
+
+    <!-- Embedded CSS -->
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+  --primary-color: #0f1a2c;
+  --secondary-color: #f6ac0f;
+  --text-dark: #0f172a;
+  --text-light: #64748b;
+  --extra-light: #f8fafc;
+  --white: #ffffff;
+  --max-width: 1200px;
+  --header-font: "Playfair Display", serif;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.section__container {
+  max-width: var(--max-width);
+  margin: auto;
+  padding: 5rem 1rem;
+}
+
+.section__subheader {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+.section__header {
+  font-size: 3rem;
+  font-weight: 800;
+  font-family: var(--header-font);
+  color: var(--text-dark);
+}
+
+.section__description {
+  margin-top: 1rem;
+  color: var(--text-light);
+}
+
+.btn {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--secondary-color);
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.section__nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section__nav span {
+  padding: 10px 15px;
+  font-size: 1.25rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.section__nav span:hover {
+  background-color: var(--secondary-color);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: var(--text-light);
+  letter-spacing: 2px;
+}
+.logo a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo div {
+  padding-inline: 12px;
+  font-size: 2rem;
+}
+
+img,
+video {
+  width: 100%;
+  display: flex;
+}
+
+a {
+  text-decoration: none;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+nav {
+  position: fixed;
+  isolation: isolate;
+  width: 100%;
+  z-index: 9;
+}
+
+.nav__bar {
+  position: relative;
+  isolation: isolate;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav__header {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--extra-light);
+}
+
+.nav__menu__btn {
+  font-size: 1.5rem;
+  color: var(--text-dark);
+  cursor: pointer;
+}
+
+.nav__links {
+  list-style: none;
+  position: absolute;
+  padding: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  background-color: var(--white);
+  transform: translateY(-100%);
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.nav__links.open {
+  transform: translateY(0);
+}
+
+.nav__links a {
+  color: var(--text-light);
+  transition: 0.3s;
+}
+
+.nav__links a:hover {
+  color: var(--secondary-color);
+}
+
+.header {
+  padding-block: 5rem;
+  background-image: linear-gradient(
+      rgba(15, 26, 44, 0.5),
+      rgba(15, 26, 44, 0.5)
+    ),
+    url("media/header1.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.header__container .section__subheader {
+  color: var(--white);
+}
+
+.header__container h1 {
+  margin-bottom: 2rem;
+  font-size: 6rem;
+  font-weight: 800;
+  line-height: 7rem;
+  font-family: var(--header-font);
+  color: var(--white);
+}
+
+.booking {
+  background-color: var(--primary-color);
+}
+
+.booking__container form {
+  max-width: 350px;
+  margin: auto;
+  display: grid;
+  gap: 2rem;
+}
+
+.input__group {
+  display: grid;
+  gap: 1rem;
+}
+
+.input__group label {
+  font-weight: 600;
+  color: var(--white);
+}
+
+.input__group input {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.5rem;
+  color: var(--white);
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--text-light);
+  border-radius: 5px;
+}
+
+.input__group input::placeholder {
+  color: var(--text-light);
+}
+
+.about {
+  position: relative;
+  isolation: isolate;
+}
+
+.about::before {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  right: 0;
+  height: 75%;
+  width: 100%;
+  background-image: url("media/about-bg.jpg");
+  background-size: 500%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.05;
+  z-index: -1;
+}
+
+.about__container {
+  display: grid;
+  gap: 4rem 2rem;
+}
+
+.about__grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.about__card {
+  height: 100%;
+  padding: 2rem;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  background-color: var(--white); /* box white background */
+  border-radius: 10px;           /* smooth corners */
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2); /* shadow same as yellow */
+}
+
+
+.about__card span {
+  margin-bottom: 1rem;
+  font-size: 3rem;
+  color: var(--secondary-color);
+}
+
+.about__card h4 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: var(--header-font);
+  color: var(--text-dark);
+}
+
+.about__card p {
+  color: var(--text-light);
+}
+
+.about__card:nth-child(4) {
+
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.about__card:nth-child(4) :is(p) {
+  color: var(--text-light);
+}
+
+.about__image img {
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.about__content .section__description {
+  margin-bottom: 2rem;
+}
+
+.room__container {
+  padding-block: 5rem;
+}
+
+.room__container :is(.section__subheader, .section__header) {
+  padding-inline: 1rem;
+  text-align: center;
+}
+
+.room__grid {
+  max-width: 1500px;
+  margin-inline: auto;
+  margin-top: 4rem;
+  display: grid;
+  gap: 0 1rem;
+}
+
+.room__card img {
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.room__card__details {
+  margin-inline: 0.5rem;  /* margin kurakkanam */
+  padding: 1rem;
+  display: flex;
+  flex-direction: column; /* price line align fix cheyyan */
+  align-items: flex-start; /* text left side start cheyyum */
+  gap: 0.5rem;
+  background-color: var(--white);
+  transform: translateY(-20%); /* -50% → -20% akki, korach thazhe */
+  border-radius: 5px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.room__card__details h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: "Lato", sans-serif;
+  color: var(--text-dark);
+}
+
+.room__card__details p {
+  color: var(--text-light);
+}
+
+.room__card__details h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.room__card__details h3 span {
+  font-size: 0.8rem;
+}
+
+.price-box {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.3rem 0;
+}
+
+.price-row i {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+.price-row h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+
+.intro {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--primary-color);
+}
+
+.intro::before {
+  position: absolute;
+  content: "";
+  right: 0;
+  height: 100%;
+  width: calc(100vw / 4);
+  background-color: var(--secondary-color);
+  z-index: -1;
+}
+
+.intro__container {
+  display: grid;
+  gap: 4rem 2rem;
+}
+
+.intro__container .section__subheader {
+  color: var(--secondary-color);
+}
+
+.intro__container :is(.section__header, .section__description) {
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+
+.intro__video {
+  max-width: 450px;
+  margin: auto;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.feature__container :is(.section__subheader, .section__header) {
+  text-align: center;
+}
+
+.feature__grid {
+  margin-top: 4rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.feature__card span {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  color: var(--secondary-color);
+}
+
+.feature__card h4 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-family: var(--header-font);
+  counter-reset: var(--text-dark);
+}
+
+.feature__card p {
+  color: var(--text-light);
+}
+
+.menu {
+  background-color: var(--extra-light);
+}
+
+.menu__header {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.menu__header h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-family: var(--header-font);
+  color: var(--text-dark);
+}
+
+.menu__items {
+  list-style: none;
+  margin-block: 4rem;
+  display: grid;
+  gap: 1rem 4rem;
+}
+
+.menu__items li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.menu__items li:hover {
+  background-color: var(--primary-color);
+}
+
+.menu__items img {
+  max-width: 100px;
+  border-radius: 2px;
+}
+
+.menu__items h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-family: var(--header-font);
+  color: var(--text-dark);
+  transition: 0.3s;
+}
+
+.menu__items p {
+  max-width: 400px;
+  color: var(--text-light);
+  transition: 0.3s;
+}
+
+.menu__items li:hover :is(h4, p) {
+  color: var(--white);
+}
+
+.menu__images {
+  margin-bottom: 4rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.menu__images img {
+  border-radius: 5px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.menu__banner {
+  list-style: none;
+  padding: 0rem;             /* 🔹 padding kure korachu */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 items side by side */
+  align-items: center;       /* 🔹 vertical center */
+  justify-items: center;     /* 🔹 horizontal center */
+  gap: 1rem;
+  text-align: center;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  height: 80px;             /* 🔹 fix height smaller */
+}
+
+/* icons size control */
+.menu__banner i {
+  font-size: 1.8rem;         /* 🔹 reduce icons */
+  color: var(--secondary-color);
+  display: block;
+}
+
+/* text size control */
+.menu__banner span {
+  font-size: 1rem;           /* 🔹 reduce text */
+  color: #fff;
+  display: block;
+}
+
+
+.menu__banner1 {
+  list-style: none;
+  padding: 1rem;             /* 🔹 padding kure korachu */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 items side by side */
+  align-items: center;       /* 🔹 vertical center */
+  justify-items: center;     /* 🔹 horizontal center */
+  gap: 1rem;
+  text-align: center;
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  height: 250px;    
+}
+
+.menu__banner span {
+  font-size: 3.5rem;
+  color: var(--secondary-color);
+}
+.menu__banner1 span {
+  font-size: 3.5rem;
+  color: var(--secondary-color);
+}
+
+.menu__banner h4 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--white);
+}
+.menu__banner1  h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.menu__banner p {
+  color: var(--text-light);
+}
+.menu__banner1 p {
+  color: var(--text-light);
+}
+
+.menu__banner__content {
+  text-align: center;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.menu__banner__content h2 {
+  font-size: 35px;
+  font-weight: 700;
+  color: var(--secondary-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu__banner__content h2 i {
+  font-size: 30px;
+  color: var(--secondary-color);
+}
+
+.menu__banner__content h4 {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-light);/* light blue subtitle */
+  margin-top: 8px;
+}
+
+.news__header {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.news__header1 {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.news__grid {
+  margin-top: 4rem;
+  display: grid;
+  gap: 2rem 1rem;
+}
+.news__grid1 {
+  margin-top: 4rem;
+  display: grid;
+  gap: 2rem 1rem;
+}
+
+.news__card img {
+  margin-bottom: 2rem;
+  border-radius: 5px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+.news__card1 img {
+  margin-bottom: 2rem;
+  border-radius: 5px;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.news__card__title {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.news__card__title p {
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+.news__card h4 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-family: var(--header-font);
+  color: var(--text-dark);
+}
+.news__card1 h4 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-family: var(--header-font);
+  color: var(--text-dark);
+}
+
+.news__card p {
+  color: var(--text-light);
+}
+.news__card1 p {
+  color: var(--text-light);
+}
+
+.news__grid {
+  display: flex;
+  overflow-x: auto;      /* 🔹 Horizontal scroll enable */
+  scroll-behavior: smooth; /* 🔹 Smooth scrolling */
+  gap: 1.5rem;
+  padding-bottom: 1rem;   /* scroll bar space */
+}
+.news__grid1 {
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+
+.news__card {
+  min-width: 30%;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.news__card1 {
+  min-width: 30%;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.news__header {
+  flex-direction: row;
+}
+.news__header1 {
+  flex-direction: row;
+}
+
+.news__grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+.news__grid1 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+
+
+.footer {
+  background-color: var(--primary-color);
+}
+
+.footer__container {
+  display: grid;
+  gap: 4rem 2rem;
+}
+
+.footer__logo {
+  margin-bottom: 0.1rem;
+  color: var(--white);
+}
+
+.footer__logo div {
+  background-color: var(--secondary-color);
+}
+
+.footer__socials {
+  list-style: none;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer__socials a {
+  padding: 6px 10px;
+  font-size: 1.25rem;
+  color: var(--text-light);
+  background-color: var(--white);
+  border-radius: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.footer__socials a:hover {
+  color: var(--white);
+  background-color: var(--secondary-color);
+}
+
+.footer__col h4 {
+  margin-bottom: 2rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-family: var(--header-font);
+  color: var(--white);
+}
+
+.footer__links {
+  list-style: none;
+}
+
+.footer__links li {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer__links a {
+  color: var(--text-light);
+  transition: 0.3s;
+}
+
+.footer__links a:hover {
+  color: var(--secondary-color);
+}
+
+.footer__col:last-child .footer__links li {
+  margin-bottom: 2rem;
+}
+
+.footer__links span {
+  font-size: 2rem;
+  color: var(--secondary-color);
+}
+
+.footer__links h5 {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 800;
+  font-family: var(--header-font);
+  color: var(--white);
+}
+
+.footer__links p {
+  color: var(--text-light);
+}
+
+.footer__bar {
+  padding: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  text-align: center;
+}
+
+@media (width > 480px) {
+  .about__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about__image:nth-child(1) {
+    grid-area: 1/2/2/3;
+  }
+
+  .about__image:nth-child(1),
+  .about__card:nth-child(4) {
+    transform: translateY(2rem);
+  }
+
+  .feature__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .menu__images {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .menu__banner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+
+
+  .footer__container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer__col:first-child {
+    grid-column: 1/3;
+  }
+}
+
+@media (width > 768px) {
+  nav {
+    position: static;
+    padding-inline: 1rem;
+    background-color: var(--primary-color);
+  }
+
+  .nav__bar {
+    max-width: var(--max-width);
+    margin: auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--white);
+    border-radius: 5px;
+    transform: translateY(50%);
+  }
+
+  .nav__header {
+    padding: 0;
+    background-color: transparent;
+  }
+
+  .nav__menu__btn {
+    display: none;
+  }
+
+  .nav__links {
+    width: fit-content;
+    padding: 0;
+    position: static;
+    flex-direction: row;
+    transform: none;
+    background-color: transparent;
+  }
+
+  .booking__container form {
+    max-width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+  }
+
+  .about::before {
+    height: 75%;
+    width: 75%;
+  }
+
+  .about__container {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+  }
+
+  .room__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .intro__container {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+  }
+
+  .feature__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .menu__header {
+    flex-direction: row;
+  }
+
+  .menu__items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .menu__images {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .menu__banner {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+
+  .footer__container {
+    grid-template-columns: 2fr repeat(2, 1fr);
+  }
+
+  .footer__col:first-child {
+    grid-column: unset;
+  }
+}
+
+@media (width > 1024px) {
+  .about__grid {
+    gap: 2rem;
+  }
+
+  .room__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .menu__images {
+    gap: 2rem;
+  }
+
+  .news__grid {
+    gap: 2rem;
+  }
+  .news__grid1 {
+    gap: 2rem;
+  }
+}
+
+
+
+
+
+.video-modal {
+  display: none; 
+  position: fixed; 
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center; 
+  align-items: center;
+  z-index: 9999;
+}
+.video-box {
+  position: relative;
+  background: #000;
+  padding: 10px;
+  border-radius: 8px;
+}
+.video-box .close {
+  position: absolute;
+  top: -35px; right: 0;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+
+
+
+.charges-list {
+  list-style: none;
+  padding: 0;
+}
+.charges-list li {
+  padding: 15px 20px;
+  border-bottom: 1px solid #555;
+  font-size: 18px;
+  color: #000000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.charges-list .arrow {
+  color: orange;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: #222;
+  color: #fff;
+  padding: 20px;
+  width: 70%;
+  border-radius: 10px;
+  position: relative;
+}
+.modal .close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.arrow {
+  color: orange;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-block;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+/* Hover effect */
+.arrow:hover {
+  color: #00aaff;       /* blue */
+  transform: translateX(5px); /* small slide */
+}
+
+.charges-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px; /* space between image and content */
+}
+
+.charges-image {
+  flex: 0 0 720px; /* fixed width image column */
+}
+.charges-image video {
+  width: 100%;
+  height: 100%;        /* content heightinu match cheyyan */
+  max-height: 10%;
+  border-radius: 20px;
+  object-fit: cover;   /* crop proper aakan */
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(105px); /* 20px melekk */
+}
+
+.charges-content {
+  flex: 2;
+}
+
+.charges-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.charges-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.charges-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+/* form */
+.apply-card {
+  width: 360px;
+  max-width: 90vw;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.06);
+  color: #fff;
+}
+
+.apply-card h2 {
+  text-align:center;
+  margin-bottom: 10px;
+}
+
+.field {
+  background: #1f232b;
+  color: #e2e8f0;
+  border: 1px solid rgba(255,255,255,.1);
+  height: 40px;
+  border-radius: 6px;
+  padding: 0 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.field1 {
+  background: #1f232b;
+  color: #e2e8f0;
+  border: 1px solid rgba(255,255,255,.1);
+  height: 40px;
+  border-radius: 6px;
+  padding: 0 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  width: 110px;   /* slim select boxes */
+  padding: 6px;
+  font-size: 0.8rem;
+}
+
+.admission-row {
+  display: flex;
+  gap: 10px;
+}
+
+.admission-row .admission {
+  flex: 0 0 120px;  /* fixed width like +91 */
+}
+
+.admission-row .fullname {
+  flex: 1;          /* take rest of the row */
+}
+
+
+.btn-apply {
+  display:block;
+  width:100%;
+  height:40px;
+  background:#e53935;
+  color:#fff;
+  font-weight:bold;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.btn-apply:hover {
+  filter: brightness(1.1);
+}
+.apply-card{
+  background: rgba(255, 255, 255, 0.05); /* almost transparent */
+  backdrop-filter: blur(15px);           /* blur effect */
+  -webkit-backdrop-filter: blur(15px);   /* Safari support */
+  width: 360px;
+  max-width: 96vw;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.2);
+}
+
+.panel{
+  background: transparent; /* keep fully transparent */
+  border-radius: 12px;
+  padding: 14px;
+  color: #fff;             /* keep text white */
+  box-shadow: none;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* two equal columns */
+  gap: 15px; /* space between columns */
+}
+
+.phone-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* make country code + mobile side by side */
+  gap: 15px;
+}
+
+.apply-card .help {
+  font-size: 11px;   /* adjust this until it matches */
+  line-height: 1.4;
+  color: #ccc;       /* optional, to soften */
+  text-align: center;
+  margin: 10px 0;
+}
+.apply-card .login {
+  line-height: 1.4;
+  color: #ccc;       /* optional, to soften */
+  text-align: center;
+  margin: 10px 0;
+}
+.login {
+  margin-top: 30px;         /* 🔹 login text-ന്റെ മുകളിലേക്ക് space */
+  font-size: 0.9rem;        /* 🔹 text കുറച്ച് വലുതാക്കാം */
+  text-align: center;       /* 🔹 center align */
+}
+
+.login a {
+  color: rgb(252, 64, 64);               /* 🔹 link red ആകും */
+}
+
+
+
+
+.phone-row {
+  display: flex;
+  gap: 10px;
+}
+
+.phone-row .country {
+  flex: 0 0 80px; /* fixed width for country code */
+}
+
+.phone-row .number {
+  flex: 1; /* take remaining full width */
+}
+
+.grid-1 {
+  display: flex;
+  flex: 1;
+}
+
+.grid-1 .field {
+  width: 100%;
+}
+
+.big-address {
+  height: 60px; /* adjust cheyyam */
+}
+.apply-card {
+  position: absolute;   /* header-നുള്ളിൽ fix ആയിരിക്കും */
+  top: 47%;             /* vertical center */
+  right: 180px;          /* right side */
+  transform: translateY(-50%);
+  z-index: 1000;
+  width: 350px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  font-size: 13px;   /* adjust this until it matches */
+}
+/* Make gender & roomtype small like +91 select */
+.small-select {
+  width: 130px;   /* adjust same as +91 box */
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+/* AC / Non-AC radio inline style */
+.room-ac {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #fff; /* match form text */
+}
+
+.room-ac input[type="radio"] {
+  accent-color: #ff4d4d; /* red highlight */
+}
+.apply-card {
+  width: 442px;        /* was 350px → charuthakki */
+  padding: 14px;       /* was 18px → kurachu reduce */
+  border-radius: 14px; /* was 18px → cheriya smooth radius */
+  font-size: 12px;     /* text also kurachu slim */
+}
+
+.field {
+  height: 48px;        /* was 40px */
+  font-size: 0.85rem;  /* text smaller */
+  padding: 0 8px;
+}
+
+.big-address {
+  height: 50px; /* was 60px */
+}
+
+.btn-apply {
+  height: 36px;        /* was 40px */
+  font-size: 0.9rem;   /* button text smaller */
+}
+
+.small-select {
+  width: 110px;   /* slim select boxes */
+  padding: 6px;
+  font-size: 0.8rem;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 3 equal columns */
+  gap: 10px;
+  align-items: center; /* vertical alignment center */
+}
+
+.small-select {
+  width: 100%;      /* auto fit grid */
+  height: 36px;     /* same height */
+  font-size: 0.85rem;
+}
+
+.room-ac {
+  display: flex;
+  justify-content: space-around; /* AC | Non-AC side by side */
+  align-items: center;
+
+  border-radius: 6px;
+  height: 36px; /* match select height */
+  padding: 0 6px;
+  font-size: 0.8rem;
+}
+.room-ac input[type="radio"] {
+  accent-color: #ff4d4d;
+  margin-right: 3px;
+}
+
+
+
+
+
+
+/* */
+/* Slideshow container */
+.slideshow {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* keeps 16:9 ratio */
+  overflow: hidden;
+}
+
+
+/* Each slide */
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(15,26,44,0.5);
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* Slide text */
+.slide-text {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+}
+
+.slide img,
+.slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ensures the image/video fills the slide without distortion */
+  display: block;
+}
+/* Arrows */
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3rem;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 5;
+}
+
+.prev { left: 20px; }
+.next { right: 20px; }
+
+.prev:hover, .next:hover {
+  color: var(--secondary-color);
+}
+
+
+
+/* popup */
+    </style>
+  </head>
+<body>
+      <nav>
+        <div class="nav__bar">
+          <div class="nav__header">
+            <div class="logo footer__logo">
+              <a href="{% url 'home' %}" style="text-decoration: none; color: inherit; cursor: pointer;">
+
+                <div>H</div>
+              </a>
+              <p></p>
+            </div>
+
+            <div class="logo nav__logo">
+              <a href="{% url 'home' %}" style="text-decoration: none; color: inherit; cursor: pointer;">
+                <h1><b>HOSTELLO</b></h1>
+              </a>
+            </div>
+
+            <div class="nav__menu__btn" id="menu-btn">
+              <i class="ri-menu-line"></i>
+            </div>
+          </div>
+          <ul class="nav__links" id="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#room">Room</a></li>
+            <li><a href="#feature">Feature</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#fees">Fees</a></li>
+            <li><a href="#amenities">Amenities</a></li>
+          </ul>
+        </div>
+      </nav>
+      
+      <header class="header" id="home">
+        <div class="section__container header__container">
+          <p class="section__subheader">ABOUT US</p>
+          <h1>The Perfect<br />Base For You</h1>
+          <button class="btn" onclick="window.location.href='/register/'">Apply now</button>
+        </div>
+      </header>
+
+      
+      <!--  -->
+      <!-- <section class="apply" id="apply">
+        <div class="apply-card">
+          <h2>Apply Today</h2>
+          <form id="applyForm" class="stack" autocomplete="on">
+            <div class="admission-row">
+              <input id="admission" class="field admission" type="text" placeholder="ADMISSION NO" required>
+              <input id="name" class="field fullname" type="text" placeholder="FULL NAME" required>
+            </div>
+
+            <div class="grid-2">
+              <input id="email" class="field" type="email" placeholder="EMAIL" required>
+              <input id="password" class="field" type="password" placeholder="SET PASSWORD" required
+                pattern="^(?=.*[A-Z])(?=.*\d).{8,}$"
+                title="Password must be at least 8 characters long, contain at least one uppercase letter and one number.">
+            </div>
+
+            <div class="grid-1">
+              <input id="address" class="field big-address" type="text" placeholder="ADDRESS" required>
+            </div>
+            <div class="grid-3">
+              <select id="gender" class="field small-select" required>
+                <option value="" disabled selected>GENDER</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+
+              <select id="roomtype" class="field small-select" required>
+                <option value="" disabled selected>ROOM TYPE</option>
+                <option>1 Seater</option>
+                <option>2 Seater</option>
+                <option>3 Seater</option>
+                <option>4 Seater</option>
+              </select>
+
+              <div class="room-ac">
+                <label><input type="radio" name="ac_type" value="AC" required> AC</label>
+                <label><input type="radio" name="ac_type" value="Non-AC"> Non-AC</label>
+              </div>
+            </div>
+
+
+            <div class="phone-row">
+              <select id="country" class="field country">
+                <option value="+91" selected>+91</option>
+                <option value="+1">+1</option>
+                <option value="+44">+44</option>
+                <option value="+971">+971</option>
+              </select>
+              <input id="mobile" class="field number" type="tel" placeholder="MOBILE NO" pattern="[0-9]{10}" maxlength="10" required>
+            </div>
+
+            <div class="grid-2">
+              <input id="dob" class="field" type="text" placeholder="DOB"
+                onfocus="(this.type='date')" 
+                onblur="(this.value=='')?this.type='text':this.type='date'" required>
+              <input id="city" class="field" type="text" placeholder="CITY" required>
+            </div>
+
+            <div class="grid-2">
+              <select id="program" class="field" required>
+                <option value="" disabled selected>SELECT PROGRAM</option>
+                <option>B.Tech</option>
+                <option>MBA</option>
+                <option>B.Sc</option>
+                <option>BA</option>
+                <option>LLB</option>
+              </select>
+              <select id="discipline" class="field" required>
+                <option value="" disabled selected>SELECT DISCIPLINE</option>
+                <option>Engineering</option>
+                <option>Management</option>
+                <option>Sciences</option>
+                <option>Arts</option>
+                <option>Law</option>
+              </select>
+            </div>
+
+            <p class="help">
+              By submitting this form, I agree to receive notifications from the Hostel warden in the form of SMS/E-mail/Call.
+            </p>
+
+            <button type="submit" class="btn-apply">APPLY NOW</button>
+            <div class="login">Already Registered ? Click to <a href="\login.html">Login</a></div>
+          </form>
+        </div>
+      </section> -->
+<!--  -->
+    <!-- Custom Popup -->
+
+  <script>
+    document.getElementById("applyForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // ✅ stops page reload
+      alert("By submitting this form, I agree to receive notifications from the Hostel warden in the form of SMS/E-mail/Call.");
+    });
+  </script>  
+      
+      <section class="booking">
+        <div class="section__container booking__container">
+          <ul class="menu__banner">
+            <li>
+              <span><i class="ri-hotel-bed-fill"></i></span>
+              <h4>1000+</h4>
+              <p>Rooms</p>
+            </li>
+            <li>
+              <span><i class="ri-shield-fill"></i></span>
+              <h4>100%</h4>
+              <p>Security</p>
+            </li>
+            <li>
+              <span><i class="ri-phone-fill"></i></span>
+              <h4>24/7</h4>
+              <p>Service</p>
+            </li>
+            <li>
+              <span><i class="ri-restaurant-line"></i></span>
+              <h4>Nutritious</h4>
+              <p>Meals</p>
+            </li>
+          </ul>
+          <br>
+        </div>
+      </section>
+      
+      <section class="about" id="about">
+        <div class="section__container about__container">
+          <div class="about__grid">
+            <div class="about__image">
+              <img src="media/header4.png" alt="about" />
+          </div>
+          <div class="about__card">
+            <span><i class="ri-men-line"></i></span>
+            <h4>Hostels for Men</h4>
+            <p>
+              There are 14 blocks allotted for Men of capacity varying from 200 to 1000 students in each block. The total capacity for Men’s hostel is about 7500.
+            </p>
+          </div>
+          <div class="about__image">
+            <img src="media/header5.png" alt="about" />
+          </div>
+          <div class="about__card">
+            <span><i class="ri-women-line"></i></span>
+            <h4>Hostels for Women</h4>
+            <p>There are 7 blocks allotted for Women students of capacity varying from 250 to 700 in each block. The total capacity for Women’s hostel is about 4000.</p>
+          </div>
+        </div>
+        <div class="about__content">
+          <p class="section__subheader">ABOUT US</p>
+          <h2 class="section__header">Discover Our Hostello</h2>
+          <p class="section__description">
+            Hostello aims to provide a secure, supportive, and student-friendly living environment. With modern facilities, dedicated wardens, and recreational opportunities, students can focus on academics and personal growth.  
+            Our hostel ensures a homely atmosphere with all essential amenities and activities that promote well-being.  
+            <br><br>“A hostel is not just accommodation; it is a journey of learning, sharing, and growth.”
+          </p>
+          <button class="btn" id="watchVideoBtn">Watch Video</button>
+        </div>
+      </section>
+
+      <!-- ✅ Video Modal -->
+      <div id="videoModal" class="video-modal">
+        <div class="video-box">
+          <span class="close">&times;</span>
+          <video controls width="800">
+            <source src="media/luxury.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+
+
+    <section class="room__container" id="room" >
+      <p class="section__subheader">ROOMS</p>
+      <h2 class="section__header">Hand Picked Rooms</h2>
+      <div class="room__grid">
+
+        <div class="room__card">
+          <img src="media/bed1.jpg" alt="room" />
+          <div class="room__card__details">
+            <div>
+              <h4>1 Seater Room</h4>
+              <p>Private room for complete privacy with attached study and storage.</p>
+              <div class="price-box">
+                <div class="price-row">
+                  <i>Non AC (Per annum):</i>
+                  <h3>Rs. 42,000 ₹<span>/Head</span></h3>
+                </div>
+                <div class="price-row">
+                  <i>AC (Per annum):</i>
+                  <h3>Rs. 54,000 ₹<span>/Head</span></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="room__card">
+          <img src="media/bed2.jpg" alt="room" />
+          <div class="room__card__details">
+            <div>
+              <h4>2 Seater Room</h4>
+              <p>Shared by two students with ample space and modern amenities.</p>
+              <div class="price-box">
+                <div class="price-row">
+                  <i>Non AC (Per annum):</i>
+                  <h3>Rs. 36,000 ₹<span>/Head</span></h3>
+                </div>
+                <div class="price-row">
+                  <i>AC (Per annum):</i>
+                  <h3>Rs. 48,000 ₹<span>/Head</span></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div><br></div>
+        <div class="room__card">
+          <img src="media/bed03.png" alt="room" />
+          <div class="room__card__details">
+            <div>
+              <h4>3 Seater Room</h4>
+              <p>Spacious room with 3 separate beds, study tables, and wardrobes for comfort</p>
+              <div class="price-box">
+                <div class="price-row">
+                  <i>Non AC (Per annum):</i>
+                  <h3>Rs. 30,000 ₹<span>/Head</span></h3>
+                </div>
+                <div class="price-row">
+                  <i>AC (Per annum):</i>
+                  <h3>Rs. 42,000 ₹<span>/Head</span></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="room__card">
+          <img src="media/bed4.png" alt="room" />
+          <div class="room__card__details">
+            <div>
+              <h4>4 Seater Room</h4>
+              <p>Comfortable shared room with 4 individual beds, study desks, and storage space for students.</p>
+              <div class="price-box">
+                <div class="price-row">
+                  <i>Non AC (Per annum):</i>
+                  <h3>Rs. 24,000 ₹<span>/Head</span></h3>
+                </div>
+                <div class="price-row">
+                  <i>AC (Per annum):</i>
+                  <h3>Rs. 36,000 ₹<span>/Head</span></h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="intro">
+      <div class="section__container intro__container">
+        <div class="intro__cotent">
+          <p class="section__subheader">INTRO VIDEO</p>
+          <h2 class="section__header">Experience Comfortable Student Living</h2>
+          <p class="section__description">
+            Hostello provides safe, affordable, and well-managed hostel facilities for students.  
+            With modern rooms, hygienic dining, 24/7 security, and recreational amenities,  
+            we ensure a perfect balance of study, comfort, and community living.  
+            Discover a second home where learning and growth go hand in hand.  
+          </p><br>
+           <a href="https://livingloungehostel.com/virtualtour/#" target="_blank" class="btn">Take Virtual Tour</a>
+        </div>
+        <div class="intro__video">
+          <video src="media/room1.mp4" autoplay muted loop></video>
+        </div>
+      </div>
+    </section>
+
+    <section class="section__container feature__container" id="feature">
+      <p class="section__subheader">FACILITIES</p>
+      <h2 class="section__header">Benefits of staying in the hostel</h2>
+      <div class="feature__grid">
+        <div class="feature__card">
+          <span><i class="ri-home-4-line"></i></span>
+          <h4>Separate Hostels</h4>
+          <p>Separate residential facility for boys and girls within the Hostello.</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-hotel-bed-line"></i></span>
+          <h4>Furnished Rooms</h4>
+          <p>Rooms with attached washroom, bed, table, chair and almirahs. Mattress provided (except dormitory).</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-windy-line"></i></span>
+          <h4>Cooling & Heating</h4>
+          <p>Air cooler / AC (as opted) and geyser for hot water in winter (scheduled timings).</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-flashlight-line"></i></span>
+          <h4>24/7 Power Supply</h4>
+          <p>Dedicated hotlines for power and backup for light load (not for AC/Geyser).</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-hospital-line"></i></span>
+          <h4>Medical Assistance</h4>
+          <p>In-Hostello hospital with ambulance facility for emergencies.</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-wifi-line"></i></span>
+          <h4>Wi-Fi Access</h4>
+          <p>Internet connectivity through Wi-Fi at scheduled times for academic use.</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-restaurant-line"></i></span>
+          <h4>Mess Facility</h4>
+          <p>Healthy veg & non-veg meals served in hostel mess facilities.</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-parking-box-line"></i></span>
+          <h4>Parking Facility</h4>
+          <p>Designated parking spaces for two-wheelers and cars.</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-run-line"></i></span>
+          <h4>Gym & Recreation</h4>
+          <p>Gymnasium available (optional on payment basis) along with sports facilities.</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-plug-line"></i></span>
+          <h4>Permitted Appliances</h4>
+          <p>Students may use electrical kettles, irons, trimmers, dryers etc. (extra charges applicable).</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-t-shirt-line"></i></span>
+          <h4>Laundry</h4>
+          <p>In-Hostello laundry facility available for students at affordable charges.</p>
+        </div>
+        <div class="feature__card">
+          <span><i class="ri-basketball-line"></i></span>
+          <h4>Indoor Stadium Facility</h4>
+          <p>Access to indoor sports stadium with badminton, basketball, squash, and volleyball courts.</p>
+        </div>
+      </div>
+    </section>
+
+    
+
+    <section class="menu" id="menu">
+      <div class="section__container menu__container">
+
+     <div class="news__header1">
+        <div>
+          <p class="section__subheader">MENU</p>
+          <h2 class="section__header">Our Food Menu</h2>
+        </div>
+        <div class="section__nav">
+          <span id="prevBtn"><i class="ri-arrow-left-line"></i></span>
+          <span id="nextBtn"><i class="ri-arrow-right-line"></i></span>
+        </div>
+      </div>
+      <div class="news__grid1" id="carousel">
+        <!-- Slide 1 -->
+        <div class="news__card1">
+          <img src="media/menu-1.jpg" alt="news" />
+          <h4>MONDAY</h4>
+          <div class="price-row">
+            <i>Morning:</i>
+            <h3>Poori masala</h3>
+          </div>
+          <div class="price-row">
+            <i>Lunch:</i>
+            <h3>Meals</span></h3>
+          </div>
+          <div class="price-row">
+            <i>Evening:</i>
+            <h3>Veg Puffs</h3>
+          </div>
+          <div class="price-row">
+            <i>Night:</i>
+            <h3>Chicken Biriyani</h3>
+          </div>
+        </div>
+        <div class="news__card">
+          <img src="media/menu-2.jpg" alt="news" />
+          <h4>TUESDAY</h4>
+          <div class="price-row">
+            <i>Morning:</i>
+            <h3>Appam, Kuruma</h3>
+          </div>
+          <div class="price-row">
+            <i>Lunch:</i>
+            <h3>Meals</h3>
+          </div>
+          <div class="price-row">
+            <i>Evening:</i>
+            <h3>Ullivada</h3>
+          </div>
+          <div class="price-row">
+            <i>Night:</i>
+            <h3>Chapati, butter chicken</h3>
+          </div>
+        </div>
+        <div class="news__card">
+          <img src="media/menu-3.jpg" alt="news" />
+          <h4>WEDNESDAY</h4>
+          <div class="price-row">
+            <i>Morning:</i>
+            <h3>Idli, sambar, chutney</h3>
+          </div>
+          <div class="price-row">
+            <i>Lunch:</i>
+            <h3>Meals, Fish curry/fry</h3>
+          </div>
+          <div class="price-row">
+            <i>Evening:</i>
+            <h3>Sandwich</h3>
+          </div>
+          <div class="price-row">
+            <i>Night:</i>
+            <h3>Fried rice, chilly chicken</h3>
+          </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="news__card">
+          <img src="media/menu-4.jpg" alt="news" />
+          <h4>THURSDAY</h4>
+          <div class="price-row">
+            <i>Morning:</i>
+            <h3>Idiyappam, green peas</h3>
+          </div>
+          <div class="price-row">
+            <i>Lunch:</i>
+            <h3>Meals</h3>
+          </div>
+          <div class="price-row">
+            <i>Evening:</i>
+            <h3>Samosa</h3>
+          </div>
+          <div class="price-row">
+            <i>Night:</i>
+            <h3>Veg Pulav, Chilly gobi</h3>
+          </div>
+        </div>
+        <div class="news__card">
+          <img src="media/menu-5.jpg" alt="news" />
+          <h4>FRIDAY</h4>
+          <div class="price-row">
+            <i>Morning:</i>
+            <h3>Dosa, sambar, chutney</h3>
+          </div>
+          <div class="price-row">
+            <i>Lunch:</i>
+            <h3>Meals, omlet</h3>
+          </div>
+          <div class="price-row">
+            <i>Evening:</i>
+            <h3>Cutlet</h3>
+          </div>
+          <div class="price-row">
+            <i>Night:</i>
+            <h3>Appam, chicken kuruma</h3>
+          </div>
+        </div>
+        <div class="news__card">
+          <img src="media/menu-6.jpg" alt="news" />
+          <h4>SATURDAY</h4>
+          <div class="price-row">
+            <i>Morning:</i>
+            <h3>Puttu, Kadala</h3>
+          </div>
+          <div class="price-row">
+            <i>Lunch:</i>
+            <h3>Meals</h3>
+          </div>
+          <div class="price-row">
+            <i>Evening:</i>
+            <h3>Cream bun</h3>
+          </div>
+          <div class="price-row">
+            <i>Night:</i>
+            <h3>Chana Battura</h3>
+          </div>
+        </div>
+        <div class="news__card">
+          <img src="media/menu-8.jpg" alt="news" />
+          <h4>SUNDAY</h4>
+          <div class="price-row">
+            <i>Morning:</i>
+            <h3>Bread/butter/jam</h3>
+          </div>
+          <div class="price-row">
+            <i>Lunch:</i>
+            <h3>Meals, chicken fry</h3>
+          </div>
+          <div class="price-row">
+            <i>Evening:</i>
+            <h3>Parippuvada</h3>
+          </div>
+          <div class="price-row">
+            <i>Night:</i>
+            <h3>Masala Dosa</h3>
+          </div>
+        </div>
+      </div>        
+      <div><br></div><br><br>
+
+
+      <section class="charges-section" id="fees">
+        <br>
+        <div class="charges-container">
+          <!-- Left side image -->
+          <!-- <div class="charges-image">
+            <img src="media/menu-7.jpg" alt="Charges Info">
+          </div> -->      
+          <div class="charges-image">
+            <video autoplay muted loop playsinline>
+              <source src="media/mess.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <!-- Right side content -->
+          <div class="charges-content">
+            <div class="menu__header">
+              <div>
+                <h2 class="section__header">Charges Information</h2>
+              </div>
+            </div>
+            <div><div><br></div></div>
+            <div></div>
+            <!-- List Section -->
+            <ul class="charges-list">
+              <li>
+                Residential Services 
+                <span class="arrow" data-modal="modal1">→</span>
+              </li>
+              <li>
+                Hostello Fee Details 
+                <span class="arrow" data-modal="modal2">→</span>
+              </li>
+              <li>
+                Sports, Gym and Swimming Charges 
+                <span class="arrow" data-modal="modal3">→</span>
+              </li>
+              <li>
+                Laundry Charges 
+                <span class="arrow" data-modal="modal4">→</span>
+              </li>
+              <li>
+                Parking Charges 
+                <span class="arrow" data-modal="modal5">→</span>
+              </li>
+              <li>
+                Important Points 
+                <span class="arrow" data-modal="modal6">→</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Modal 1 -->
+        <div id="modal1" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: #333; margin-bottom: 20px;">Residential Services</h2>
+            <p style="color: #333; margin-bottom: 20px;">
+              The following facilities are available in Standard hostel rooms:-  
+              Air Conditioner/ Air Cooler (as availed), Attached washroom and Geyser in each room.  
+              Bed, Study Table, Chair and Partitioned Almirah.  
+              24 Hrs. Security Services, CCTV Surveillance, Electricity Backup, Water Supply, Staff Assistance and Medical Service (Medicines and tests On Payment).  
+              Study Room, TV Room, Lift Facility, Fire Fighting System, Purified Water Facility, Maintenance Services, Wi-Fi Service, Free Electricity Units (As Applicable) and Play Grounds.  
+              If a student wants a kit consisting of a Quilt, Bed sheet and Pillow with Cover then Rs. 3000 additional may have to be paid.  
+              The services mentioned below are available on payment basis :  
+              Mess Services, Laundry Services, Dedicated Parking, Departmental Store, Cafeteria, Saloon for Boys, Printing and copier Shops in all hostels, Guest Rooms, Car Wash Facility, Shopping Mall and Tuck Shops.  
+              *The residential fee, along with charges for mess, laundry, swimming pool, gym and indoor facilities, are all managed by Pro Bricks.
+            </p>
+          </div>
+        </div>
+        <!-- Modal 2 -->
+        <div id="modal2" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: #333; margin-bottom: 20px;">Hostello Fee Details</h2>
+            <table border="1" width="100%">
+              <tr>
+                <th>Fee Category</th>
+                <th>Amount (₹)</th>
+                <th>Description</th>
+              </tr>
+              <tr>
+                <td>Room Rent (Standard)</td>
+                <td>₹25,000</td>
+                <td>Shared 3-Seater Room (per semester)</td>
+              </tr>
+              <tr>
+                <td>Room Rent (Premium)</td>
+                <td>₹35,000</td>
+                <td>2-Seater Room with attached washroom</td>
+              </tr>
+              <tr>
+                <td>Mess Fee (Full Plan)</td>
+                <td>₹46,000</td>
+                <td>4 Meals per day – Breakfast, Lunch, Snacks, Dinner</td>
+              </tr>
+              <tr>
+                <td>Mess Fee (Lite Plan)</td>
+                <td>₹42,000</td>
+                <td>3 Meals per day – Breakfast, Lunch, Dinner</td>
+              </tr>
+              <tr>
+                <td>Rebate Applicable</td>
+                <td>₹150/day</td>
+                <td>Deducted for each eligible absent day beyond 4 days</td>
+              </tr>
+              <tr>
+                <td>Security Deposit</td>
+                <td>₹5,000</td>
+                <td>Refundable after completion of hostel stay</td>
+              </tr>
+              <tr>
+                <td>Maintenance Charges</td>
+                <td>₹2,500</td>
+                <td>Annual maintenance and facility service cost</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!-- Modal 1 -->
+        <div id="modal3" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: #333; margin-bottom: 20px;">Details for Gym, Sports & Swimming for Academic Session 2025-26</h2>
+            
+            <!-- Tab Navigation -->
+            <div class="facility-tabs">
+              <button class="tab-btn active" onclick="showTab(event, 'gym')">GYM Facility</button>
+              <button class="tab-btn" onclick="showTab(event, 'sports')">Sports Facility</button>
+              <button class="tab-btn" onclick="showTab(event, 'swimming')">Swimming Facility</button>
+            </div>
+
+            <!-- GYM Tab Content -->
+            <div id="gym" class="tab-content active">
+              <h3 style="color: #333; margin: 20px 0 10px 0;">GYM Facility (Separate for Boys and Girls)</h3>
+              <p style="color: #555; line-height: 1.8; margin-bottom: 20px;">
+                GYM facility is being introduced at two different locations exclusively for hosteller students with subsidized Charges (if opted yearly along with hostel). 
+                The locations are Indoor Sports Complex level-2 (for Boys), in the premises of Girls Hostel-1 (for Girls). 
+                Students can join the facility on a year basis.
+              </p>
+
+              <h4 style="color: #444; margin: 25px 0 12px 0; font-size: 1.1rem;">For Day Scholars</h4>
+              <table border="1" width="100%" style="border-collapse: collapse; margin-bottom: 25px;">
+                <tr style="background-color: #f8f9fa;">
+                  <th style="padding: 12px; text-align: left; color: #333; border: 1px solid #ddd;">Charges to be paid</th>
+                  <th style="padding: 12px; text-align: right; color: #333; border: 1px solid #ddd;">Amount (₹)</th>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Annual GYM Membership</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 6,000</td>
+                </tr>
+              </table>
+
+              <h4 style="color: #444; margin: 25px 0 12px 0; font-size: 1.1rem;">For Hostellers</h4>
+              <table border="1" width="100%" style="border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="background-color: #f8f9fa;">
+                  <th style="padding: 12px; text-align: left; color: #333; border: 1px solid #ddd;">Charges to be paid</th>
+                  <th style="padding: 12px; text-align: right; color: #333; border: 1px solid #ddd;">Amount (₹)</th>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Charges to be paid (If Allotment done upto 30th September 2025)</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 4,000</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Charges to be paid (If Allotment done after 30th September 2025 onwards)</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 5,000</td>
+                </tr>
+              </table>
+
+              <div class="note-section" style="margin-top: 25px; padding: 18px; background-color: #fff9e6; border-left: 4px solid #ff8c00; border-radius: 4px;">
+                <strong style="color: #333; font-size: 1.05rem;">Note:</strong>
+                <ul style="margin: 12px 0 0 20px; line-height: 2; color: #555;">
+                  <li style="margin-bottom: 10px;">Time slot of the opted facility will be communicated depending upon the student count and availability of services. (Gym Facility can be allocated after depositing Rs.4000)</li>
+                  <li style="margin-bottom: 10px;">The residential fee, along with charges for mess, laundry, swimming pool, gym and indoor facilities, are all managed by Pro Bricks.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Sports Tab Content -->
+            <div id="sports" class="tab-content">
+              <h3 style="color: #333; margin: 20px 0 10px 0;">Sports Facility (Indoor & Outdoor)</h3>
+              <p style="color: #555; line-height: 1.8; margin-bottom: 20px;">
+                HOSTELLO provides comprehensive sports facilities for both indoor and outdoor activities. Students can access state-of-the-art equipment and professional coaching for various sports disciplines throughout the year.
+              </p>
+
+              <h4 style="color: #444; margin: 25px 0 12px 0; font-size: 1.1rem;">For Day Scholars</h4>
+              <table border="1" width="100%" style="border-collapse: collapse; margin-bottom: 25px;">
+                <tr style="background-color: #f8f9fa;">
+                  <th style="padding: 12px; text-align: left; color: #333; border: 1px solid #ddd;">Sports Category</th>
+                  <th style="padding: 12px; text-align: right; color: #333; border: 1px solid #ddd;">Amount (₹)</th>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Indoor Sports (Badminton, Table Tennis, Squash) - Annual</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 5,000</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Outdoor Sports (Football, Cricket, Basketball, Volleyball) - Annual</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 4,000</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">All Sports Combined Package - Annual</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 7,500</td>
+                </tr>
+              </table>
+
+              <h4 style="color: #444; margin: 25px 0 12px 0; font-size: 1.1rem;">For Hostellers</h4>
+              <table border="1" width="100%" style="border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="background-color: #f8f9fa;">
+                  <th style="padding: 12px; text-align: left; color: #333; border: 1px solid #ddd;">Sports Category</th>
+                  <th style="padding: 12px; text-align: right; color: #333; border: 1px solid #ddd;">Amount (₹)</th>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Indoor Sports Access (Subsidized) - Annual</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 3,000</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Outdoor Sports Access (Subsidized) - Annual</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 2,500</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">All Sports Combined Package (Subsidized) - Annual</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 5,000</td>
+                </tr>
+              </table>
+
+              <div class="note-section" style="margin-top: 25px; padding: 18px; background-color: #e8f5e9; border-left: 4px solid #4caf50; border-radius: 4px;">
+                <strong style="color: #333; font-size: 1.05rem;">Facilities Included:</strong>
+                <ul style="margin: 12px 0 0 20px; line-height: 2; color: #555;">
+                  <li style="margin-bottom: 10px;">Professional coaching and training sessions</li>
+                  <li style="margin-bottom: 10px;">Equipment provided for all sports activities</li>
+                  <li style="margin-bottom: 10px;">Inter-hostel and inter-college tournament participation</li>
+                  <li style="margin-bottom: 10px;">Access to sports grounds from 6:00 AM to 8:00 PM daily</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Swimming Tab Content -->
+            <div id="swimming" class="tab-content">
+              <h3 style="color: #333; margin: 20px 0 10px 0;">Swimming Facility (Olympic Size Pool)</h3>
+              <p style="color: #555; line-height: 1.8; margin-bottom: 20px;">
+                HOSTELLO features an Olympic-size swimming pool with separate timing for boys and girls. Professional lifeguards and swimming coaches are available for training and safety. The facility is maintained with international hygiene standards.
+              </p>
+
+              <h4 style="color: #444; margin: 25px 0 12px 0; font-size: 1.1rem;">For Day Scholars</h4>
+              <table border="1" width="100%" style="border-collapse: collapse; margin-bottom: 25px;">
+                <tr style="background-color: #f8f9fa;">
+                  <th style="padding: 12px; text-align: left; color: #333; border: 1px solid #ddd;">Membership Type</th>
+                  <th style="padding: 12px; text-align: right; color: #333; border: 1px solid #ddd;">Amount (₹)</th>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Swimming Pool Access - 6 Months</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 8,000</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Swimming Pool Access - Annual (12 Months)</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 14,000</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Professional Swimming Training (Optional) - Per Month</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 2,000</td>
+                </tr>
+              </table>
+
+              <h4 style="color: #444; margin: 25px 0 12px 0; font-size: 1.1rem;">For Hostellers</h4>
+              <table border="1" width="100%" style="border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="background-color: #f8f9fa;">
+                  <th style="padding: 12px; text-align: left; color: #333; border: 1px solid #ddd;">Membership Type</th>
+                  <th style="padding: 12px; text-align: right; color: #333; border: 1px solid #ddd;">Amount (₹)</th>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Swimming Pool Access (Subsidized) - 6 Months</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 5,000</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Swimming Pool Access (Subsidized) - Annual (12 Months)</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 9,000</td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px; color: #555; border: 1px solid #ddd;">Professional Swimming Training (Optional) - Per Month</td>
+                  <td style="padding: 12px; text-align: right; color: #555; font-weight: 600; border: 1px solid #ddd;">Rs. 1,500</td>
+                </tr>
+              </table>
+
+              <div class="note-section" style="margin-top: 25px; padding: 18px; background-color: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 4px;">
+                <strong style="color: #333; font-size: 1.05rem;">Pool Timings & Facilities:</strong>
+                <ul style="margin: 12px 0 0 20px; line-height: 2; color: #555;">
+                  <li style="margin-bottom: 10px;">Separate timing slots for Boys and Girls for privacy</li>
+                  <li style="margin-bottom: 10px;">Morning Session: 6:00 AM - 9:00 AM | Evening Session: 4:00 PM - 7:00 PM</li>
+                  <li style="margin-bottom: 10px;">Professional lifeguards on duty during all operational hours</li>
+                  <li style="margin-bottom: 10px;">Changing rooms, lockers, and shower facilities available</li>
+                  <li style="margin-bottom: 10px;">Swimming equipment (goggles, caps) available for purchase at the facility</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          /* Modal Styling */
+          .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            overflow: auto;
+          }
+
+          .modal-content {
+            background-color: #ffffff;
+            margin: 3% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 85%;
+            max-width: 1000px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+          }
+
+          .close {
+            color: #999;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+          }
+
+          .close:hover,
+          .close:focus {
+            color: #333;
+          }
+
+          /* Tab Navigation Styling */
+          .facility-tabs {
+            display: flex;
+            gap: 0;
+            margin: 25px 0 30px 0;
+            border-bottom: 3px solid #ddd;
+          }
+
+          .tab-btn {
+            padding: 14px 28px;
+            background-color: #f5f5f5;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s ease;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            position: relative;
+            bottom: -3px;
+          }
+
+          .tab-btn:hover {
+            background-color: #ffe0b3;
+            color: #333;
+          }
+
+          .tab-btn.active {
+            background-color: #ff8c00;
+            color: white;
+            border-bottom: 3px solid #ff8c00;
+          }
+
+          /* Tab Content */
+          .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+          }
+
+          .tab-content.active {
+            display: block;
+          }
+
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+
+          /* Table Styling */
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+          }
+
+          table th {
+            background-color: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border: 1px solid #ddd;
+          }
+
+          table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            color: #555;
+          }
+
+          table tr:hover {
+            background-color: #f9f9f9;
+          }
+        </style>
+
+        <script>
+          // Tab Switching Function
+          function showTab(event, tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.currentTarget.classList.add('active');
+          }
+
+          // Modal close functionality
+          document.querySelectorAll('.close').forEach(closeBtn => {
+            closeBtn.onclick = function() {
+              this.closest('.modal').style.display = 'none';
+            }
+          });
+
+          // Close modal when clicking outside
+          window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+              event.target.style.display = 'none';
+            }
+          }
+        </script>
+
+        <div id="modal4" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: #333; margin-bottom: 25px; font-size: 1.5rem;">Charges (in ₹) for In-House Laundry for Academic session 2025-26</h2>
+            
+            <!-- Description Section -->
+            <div style="margin-bottom: 25px; line-height: 1.8;">
+              <p style="color: #555; margin-bottom: 15px;">
+                Quality Laundry Services are available in the University Campus. The Laundry Services are provided through the best washing and drying machines using standard chemicals.
+              </p>
+              
+              <ul style="color: #555; line-height: 2; margin-left: 0; padding-left: 20px;">
+                <li style="margin-bottom: 10px;">
+                  <strong style="font-weight: 600;">The Laundry facility is optional. The Charges for Laundry and its administration is Rs. 5200</strong> for the academic session
+                </li>
+                <li style="margin-bottom: 10px;">
+                  Generally, the steam press system is used.
+                </li>
+                <li style="margin-bottom: 10px;">
+                  Delivery/ collection is generally done in a bag with the proper identification number of the user at specified place in Residential Compound.
+                </li>
+                <li style="margin-bottom: 10px;">
+                  Each student can get *Upto 70 clothes per month of his/her own clothes (not of his friends/ associates) washed/ironed from the Laundry. If in a specific month student utilizes service of laundry facility for less number of clothes, then the balance will not be carried forward.
+                </li>
+                <li style="margin-bottom: 10px;">
+                  <strong style="font-weight: 600;">The residential fee, along with charges for mess, laundry, swimming pool, gym and indoor facilities, are all managed by Pro Bricks.</strong>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Charges Table -->
+            <table border="1" width="100%" style="border-collapse: collapse; margin-top: 25px;">
+              <thead>
+                <tr style="background-color: #f8f9fa;">
+                  <th style="padding: 14px; text-align: left; color: #333; border: 1px solid #ddd; font-weight: 600; width: 20%;">
+                    Facility
+                  </th>
+                  <th style="padding: 14px; text-align: center; color: #333; border: 1px solid #ddd; font-weight: 600; width: 20%;">
+                    Charges for Academic Session
+                  </th>
+                  <th style="padding: 14px; text-align: center; color: #333; border: 1px solid #ddd; font-weight: 600; width: 20%;">
+                    Proportionate reduction in charges if student opted laundry facility from 1st September 2025 till 15th September 2025 (10% reduction)
+                  </th>
+                  <th style="padding: 14px; text-align: center; color: #333; border: 1px solid #ddd; font-weight: 600; width: 20%;">
+                    Proportionate reduction in charges if student opted laundry facility from 16th September 2025 till 30th September 2025 (15% reduction)
+                  </th>
+                  <th style="padding: 14px; text-align: center; color: #333; border: 1px solid #ddd; font-weight: 600; width: 20%;">
+                    Proportionate reduction in charges if student opted laundry facility from 1st October 2025 till 15th October 2025 (20% reduction)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 14px; color: #555; border: 1px solid #ddd; background-color: #fafafa;">
+                    <strong>Laundry Facility charges</strong>
+                  </td>
+                  <td style="padding: 14px; text-align: center; color: #555; border: 1px solid #ddd; font-weight: 600;">
+                    INR 5200
+                  </td>
+                  <td style="padding: 14px; text-align: center; color: #555; border: 1px solid #ddd; font-weight: 600;">
+                    INR 4680
+                  </td>
+                  <td style="padding: 14px; text-align: center; color: #555; border: 1px solid #ddd; font-weight: 600;">
+                    INR 4420
+                  </td>
+                  <td style="padding: 14px; text-align: center; color: #555; border: 1px solid #ddd; font-weight: 600;">
+                    INR 4160
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <style>
+          /* Modal Base Styling */
+          .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            overflow: auto;
+          }
+
+          .modal-content {
+            background-color: #ffffff;
+            margin: 3% auto;
+            padding: 35px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 1200px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+          }
+
+          .close {
+            color: #999;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 20px;
+          }
+
+          .close:hover,
+          .close:focus {
+            color: #333;
+          }
+
+          /* Table Styling */
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+          }
+
+          table th {
+            background-color: #f8f9fa;
+            padding: 14px;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+            border: 1px solid #ddd;
+          }
+
+          table td {
+            padding: 14px;
+            border: 1px solid #ddd;
+            color: #555;
+          }
+
+          table tbody tr:hover {
+            background-color: #f9f9f9;
+          }
+
+          /* List Styling */
+          ul {
+            list-style-type: none;
+            padding-left: 0;
+          }
+
+          ul li {
+            position: relative;
+            padding-left: 25px;
+          }
+
+
+
+          /* Responsive Design */
+          @media (max-width: 768px) {
+            .modal-content {
+              width: 95%;
+              padding: 20px;
+              margin: 5% auto;
+            }
+
+            table {
+              font-size: 12px;
+            }
+
+            table th,
+            table td {
+              padding: 10px;
+            }
+          }
+        </style>
+
+        <script>
+          // Modal functionality
+          document.querySelectorAll('.close').forEach(closeBtn => {
+            closeBtn.onclick = function() {
+              this.closest('.modal').style.display = 'none';
+            }
+          });
+
+          // Close modal when clicking outside
+          window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+              event.target.style.display = 'none';
+            }
+          }
+
+          // Function to open modal (call this from your button)
+          function openLaundryModal() {
+            document.getElementById('modal4').style.display = 'block';
+          }
+        </script>
+
+        <div id="modal5" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: #333; margin-bottom: 25px; font-size: 1.5rem;">Parking Facility Details for Academic session 2025-2026.</h2>
+            
+            <!-- Description Section -->
+            <div style="margin-bottom: 25px; line-height: 2;">
+              <ul style="color: #555; padding-left: 0; list-style: none;">
+                <li style="margin-bottom: 12px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  Parking facility may be availed by Day Scholars as well as resident/ students.
+                </li>
+                <li style="margin-bottom: 12px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  Students interested in availing this facility need to get their vehicle(s) (2 wheeler and/ or 4 wheeler) registered by filling a prescribed form, after paying the registration Charges before they bring their vehicles to the University Campus.
+                </li>
+                <li style="margin-bottom: 20px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  The details of Registration Charges for Parking and its administration for different type of vehicle is as per following details:-
+                </li>
+              </ul>
+              
+              <h3 style="color: #444; font-size: 1.1rem; margin-bottom: 20px; font-weight: 600;">
+                Registration Charges for Parking and its administration for Academic Session 2025-2026
+              </h3>
+            </div>
+
+            <!-- Parking Charges Table -->
+            <table border="1" width="100%" style="border-collapse: collapse; margin-bottom: 25px;">
+              <thead>
+                <tr style="background-color: #e8e8e8;">
+                  <th style="padding: 14px; text-align: left; color: #333; border: 1px solid #ccc; font-weight: 600; width: 30%;">
+                    Category
+                  </th>
+                  <th style="padding: 14px; text-align: left; color: #333; border: 1px solid #ccc; font-weight: 600; width: 35%;">
+                    Registration charges for Parking and its administration for Two-Wheeler (INR)
+                  </th>
+                  <th style="padding: 14px; text-align: left; color: #333; border: 1px solid #ccc; font-weight: 600; width: 35%;">
+                    Registration charges for Parking and its administration for Four-Wheeler (INR)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background-color: #fafafa;">
+                  <td style="padding: 14px; color: #555; border: 1px solid #ccc; font-weight: 600;">
+                    Students availing Residential Facility
+                  </td>
+                  <td style="padding: 14px; color: #555; border: 1px solid #ccc; background-color: #f9f9f9;">
+                    Free of Cost
+                  </td>
+                  <td style="padding: 14px; color: #555; border: 1px solid #ccc; background-color: #f9f9f9;">
+                    Free of Cost
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 14px; color: #555; border: 1px solid #ccc; font-weight: 600;">
+                    For Day Scholars
+                  </td>
+                  <td style="padding: 14px; color: #555; border: 1px solid #ccc; background-color: #fef9f3;">
+                    Rs. 1000 per vehicle
+                  </td>
+                  <td style="padding: 14px; color: #555; border: 1px solid #ccc; background-color: #fef9f3;">
+                    Rs. 3000 per vehicle
+                  </td>
+                </tr>
+                <tr style="background-color: #fafafa;">
+                  <td style="padding: 14px; color: #555; border: 1px solid #ccc; font-weight: 600;">
+                    For Day Scholars<br>(short time courses)
+                  </td>
+                  <td style="padding: 14px; color: #555; border: 1px solid #ccc; background-color: #fef9f3;">
+                    Rs. 500 per vehicle
+                  </td>
+                  <td style="padding: 14px; color: #555; border: 1px solid #ccc; background-color: #fef9f3;">
+                    Rs. 1500 per vehicle
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Additional Information -->
+            <div style="margin-top: 20px; line-height: 2;">
+              <ul style="color: #555; padding-left: 0; list-style: none;">
+                <li style="margin-bottom: 12px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  Registration Charges for Parking as mentioned above is for academic session 2025-2026 and it is subject to change for successive sessions
+                </li>
+                <li style="margin-bottom: 12px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  The parking place (unpaved parking) will be at some distance from the allotted residential accommodation and/ or academic block.
+                </li>
+                <li style="margin-bottom: 12px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  The University bears no responsibility for the loss/ damage/ theft of the vehicle, accessories and any material in the vehicle.
+                </li>
+                <li style="margin-bottom: 12px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  At all time, the speed limit, as specified by the University, needs to be followed in letter and spirit.
+                </li>
+                <li style="margin-bottom: 12px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  In case of 2 wheelers, the driver as well as the pillion rider needs to wear the helmet.
+                </li>
+                <li style="margin-bottom: 12px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  Tripling and other acts forbidden under Motor Vehicles Act, 1988 and/ or other relevant laws and regulations in force are not allowed.
+                </li>
+                <li style="margin-bottom: 12px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  All vehicles brought inside the University Campus should have Insurance paper, RC, Driving License, Pollution Certificate and other relevant documents as required / prescribed under Motor Vehicles Act, 1988 and other relevant laws and regulations in force.
+                </li>
+                <li style="margin-bottom: 12px; position: relative; padding-left: 25px;">
+                  <span style="position: absolute; left: 0; color: #ff8c00; font-weight: bold;">→</span>
+                  <strong style="font-weight: 600;">The residential fee, along with charges for mess, laundry, swimming pool, gym and indoor facilities, are all managed by Pro Bricks.</strong>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          /* Modal Base Styling */
+          .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            overflow: auto;
+          }
+
+          .modal-content {
+            background-color: #ffffff;
+            margin: 2% auto;
+            padding: 35px 40px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 1100px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+          }
+
+          .close {
+            color: #999;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 20px;
+          }
+
+          .close:hover,
+          .close:focus {
+            color: #333;
+          }
+
+          /* Table Styling */
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+          }
+
+          table th {
+            background-color: #e8e8e8;
+            padding: 14px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border: 1px solid #ccc;
+          }
+
+          table td {
+            padding: 14px;
+            border: 1px solid #ccc;
+            color: #555;
+          }
+
+          table tbody tr:hover {
+            background-color: #f5f5f5;
+          }
+
+          /* List Styling - Custom Arrows */
+          ul {
+            list-style-type: none;
+            padding-left: 0;
+          }
+
+          ul li {
+            position: relative;
+            padding-left: 25px;
+            line-height: 1.8;
+          }
+
+          /* Responsive Design */
+          @media (max-width: 768px) {
+            .modal-content {
+              width: 95%;
+              padding: 20px;
+              margin: 5% auto;
+            }
+
+            table {
+              font-size: 12px;
+            }
+
+            table th,
+            table td {
+              padding: 10px;
+            }
+
+            ul li {
+              font-size: 14px;
+            }
+          }
+
+          /* Scrollbar Styling */
+          .modal-content::-webkit-scrollbar {
+            width: 8px;
+          }
+
+          .modal-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+          }
+
+          .modal-content::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+          }
+
+          .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #555;
+          }
+        </style>
+
+        <script>
+          // Modal functionality
+          document.querySelectorAll('.close').forEach(closeBtn => {
+            closeBtn.onclick = function() {
+              this.closest('.modal').style.display = 'none';
+            }
+          });
+
+          // Close modal when clicking outside
+          window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+              event.target.style.display = 'none';
+            }
+          }
+
+          // Function to open modal (call this from your button)
+          function openParkingModal() {
+            document.getElementById('modal5').style.display = 'block';
+          }
+        </script>
+
+<div id="modal6" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 style="color: #333; margin-bottom: 30px; font-size: 1.5rem;">Residential Facilities</h2>
+    
+    <!-- Rules and Regulations List -->
+    <div style="line-height: 2;">
+      <ul style="color: #555; padding-left: 0; list-style: none; margin: 0;">
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          Residential facility is permitted on annual basis for students admitted for regular programmes for the duration of regular academic session.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          All rights of permission to avail the Residential facility are reserved with the University and can be denied to any student. No student shall be entitled to claim this facility as a matter of right.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          Residential facility will be offered on First Come First Serve basis, with the provision for reservation for special category of student(s) such as those admitted for residential or specific programme or admitted in Hons. programme or from the distant places or on the basis of academic/ sports/ cultural/ co-curricular or other performances or as decided otherwise by the University.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          The location of the Residential facility, floor and room pattern are subject to change from time to time.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          Residential facility will be provided till the end of the regular academic session including regular exams or 10 months from the start of session, whichever is earlier. Students can come and join two days prior to start of academic session and will be required to vacate Residential room/ apartment within two days after regular exams. For availing Residential facility after the end of regular academic session for any purpose like summer school/ reappear examination/ make up examination/ PEP/ EEP classes etc., additional proportionate residential Charges (residence) will have to be paid by the student, subject to the availability and permission of Residential facility.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          Customized plan (e.g. for full calendar year) may be provided on request.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          Residential Charges (Residence) is for the academic session 2025-26 and is subject to change for successive sessions.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          Unless otherwise specified, Residential facility(s) once chosen like Air Conditioned facility etc. will not be changed during the academic session.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          Residential Charges (Residence) includes the fee for accommodation (boarding and lodging), geyser, cooler or AC (as opted), and electricity (free units as mentioned below), generator and maintenance cost for light load.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          Unless otherwise specified, Residential facility(s) once chosen like AC facility etc. may be upgraded depending on the availability of the respective seater.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          Residential Charges (Residence) includes the Charges for accommodation, geyser, cooler or AC (as opted), and electricity (free units as mentioned in the Charges table)
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          Electricity used in excess of free unit permissible by the university will be charged on actual basis. In case of shared room or apartment i.e. 2, 3, 4 seater etc. usages of electricity units will be calculated on per room basis and shared equally among all the occupants of the room.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          The reading of electricity meter noted on the day prior to reporting date of the first student in the allotted room in residential facility of the university, shall be considered as the initial reading for all the subsequent students allotted the same room.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          If a student wants a kit consisting of a Quilt, Bed sheet and Pillow with Cover then Rs. 3000 additional may have to be paid.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          For Refund of Charges, refer to 'Refund Policy for Indian Applicants' mentioned in Part-C of Prospectus.
+        </li>
+        
+        <li style="margin-bottom: 15px; position: relative; padding-left: 25px; color: #555;">
+          <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">→</span>
+          <strong style="font-weight: 600; color: #333;">The residential fee, along with charges for mess, laundry, swimming pool, gym and indoor facilities, are all managed by Pro Bricks.</strong>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Modal close functionality
+  document.querySelectorAll('.close').forEach(closeBtn => {
+    closeBtn.onclick = function() {
+      this.closest('.modal').style.display = 'none';
+    }
+  });
+
+  // Close modal when clicking outside
+  window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+      event.target.style.display = 'none';
+    }
+  }
+
+  // Function to open modal
+  function openResidentialModal() {
+    document.getElementById('modal6').style.display = 'block';
+  }
+</script>
+      
+      </section>
+
+
+      <div><br></div><br><br>
+        <!-- <div class="menu__images">
+          <img src="media/menu-7.jpg" alt="menu" />
+          <img src="media/menu-8.jpg" alt="menu" />
+          <img src="media/menu-9.jpg" alt="menu" />
+        </div>-->
+        <section id="contacts">
+          <div class="menu__banner__content"> 
+            <h2><i class="ri-error-warning-line"></i> Emergency Contacts</h2>
+            <h4>For immediate assistance and emergencies</h4>
+          </div> 
+          <div class="menu1">
+            <ul class="menu__banner1">
+              <li class="menu__active">
+                <span><i class="ri-phone-fill"></i></span>
+                <h4>Women Cell Helpline</h4>
+                <a href="tel:+919876543210"><p>9877457238</p></a>
+              </li>
+              <li>
+                  <span><i class="ri-hospital-fill"></i></span>
+                  <h4>Medical Emergency</h4>
+                  <a href="tel:+919876543210"><p>8146651534</p></a>
+              </li>
+              <li>
+                <span><i class="ri-shield-keyhole-fill"></i></span>
+                <h4>Security</h4>
+                <a href="tel:+919876543210"><p>7087110581</p></a>
+              </li>
+              <li>
+                <span><i class="ri-shield-user-fill"></i></span>
+                <h4>Anti-Ragging</h4>
+                <a href="tel:+919876543210"><p>95011-01032</p></a>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </section>
+    
+
+    <section class="section__container news__container" id="amenities">
+      <div class="news__header">
+        <div>
+          <p class="section__subheader">Residential Facilities</p>
+          <h2 class="section__header">Hostel Amenities</h2>
+        </div>
+      </div>
+      <div class="news__grid" id="carousel">
+        <!-- Slide 1 -->
+        <div class="news__card">
+          <img src="media/facilities.jpg" alt="news" />
+          <h4>Indoor Stadium Facility</h4>
+          <p>
+            Sports facility is being introduced with facility like Swimming,
+            Shooting, Squash etc. Students can join all these memberships on a
+            yearly basis.
+          </p>
+        </div>
+        <div class="news__card">
+          <img src="media/facilities1.jpg" alt="news" />
+          <h4>Gym Facility</h4>
+          <p>
+            We are excited to offer a fully equipped gym facility to support the
+            health and fitness of students and staff, as well as wellness programs.
+          </p>
+        </div>
+        <div class="news__card">
+          <img src="media/facilities2.jpg" alt="news" />
+          <h4>Mess Facility</h4>
+          <p>
+            Our institute offers a clean and comfortable mess facility, providing
+            nutritious and delicious meals for students and staff. Enjoy affordable
+            and healthy food, served in a welcoming environment right on campus.
+          </p>
+        </div>
+        <!-- Slide 2 -->
+        <div class="news__card">
+          <img src="media/facilities3.jpg" alt="news" />
+          <h4>InHouse Laundry</h4>
+          <p>
+            Convenient in-house laundry facility for students and staff, offering efficient and affordable washing and drying services. Focus on your studies and activities while we take care of your laundry needs.
+          </p>
+        </div>
+        <div class="news__card">
+          <img src="media/facilities4.jpg" alt="news" />
+          <h4>Earn While You Learn</h4>
+          <p>
+            Our institute provides students with opportunities to gain practical work experience through part-time jobs, while also earning an income and enhancing their skills.
+          </p>
+        </div>
+        <div class="news__card">
+          <img src="media/facilities5.jpg" alt="news" />
+          <h4>Apartment Style Housing</h4>
+          <p>
+            Hostel rooms designed for comfort with attached washrooms, study tables, storage, and modern amenities, ensuring a home-like environment for students.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+           <div class="logo footer__logo">
+              <a href="{% url 'home' %}" style="text-decoration: none; color: inherit; cursor: pointer;">
+                <div>H</div>
+              </a>
+              <span><a href="{% url 'home' %}" style="text-decoration: none; color: inherit; cursor: pointer;">
+                <h1><b>HOSTELLO</b></h1>
+              </a></span>
+            </div>
+
+          <p class="section__description">
+            Hostello is a modern hostel management system designed to simplify and digitalize hostel life.  
+            It provides students with secure accommodation, hygienic meals, 24/7 support, and recreational facilities,  
+            while ensuring transparency and convenience for wardens and management.  
+            From room allocation to fee management, Hostello makes hostel living organized, efficient, and student-friendly.
+          </p>
+
+          <ul class="footer__socials">
+            <li>
+              <a href="https://www.youtube.com/"><i class="ri-youtube-fill"></i></a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/"><i class="ri-instagram-line"></i></a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/"><i class="ri-facebook-fill"></i></a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/"><i class="ri-linkedin-fill"></i></a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Services</h4>
+          <div class="footer__links">
+            <li><a href="#">Online Booking</a></li>
+            <li><a href="#room">Room Customization</a></li>
+            <li><a href="https://livingloungehostel.com/virtualtour/">Virtual Tours</a></li>
+            <li><a href="#fees">Charges Information</a></li>
+            <li><a href="#feature">FACILITIES</a></li>
+            <li><a href="#contacts">Customer Support</a></li>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4>Contact Us</h4>
+          <div class="footer__links">
+            <li>
+              <span><i class="ri-phone-fill"></i></span>
+              <div>
+                <h5>Phone Number</h5>
+                <a href="tel:+919876543210"><p>+91 9876543210</p></a>
+              </div>
+            </li>
+            <li>
+              <span><i class="ri-record-mail-line"></i></span>
+              <div>
+                <h5>Email</h5>
+                <a href="mailto:info@hostello.com"><p>info@hostello.com</p></a>
+              </div>
+            </li>
+            <li>
+              <span><i class="ri-map-pin-2-fill"></i></span>
+              <div>
+                <h5>Location</h5>
+                <a href="https://maps.app.goo.gl/yV8rvG6KKUtu6bqLA"><p>First St. Malappuram</p></a>
+              </div>
+            </li>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bar">
+        Copyright © 2025 Hash IT Solution. All rights reserved.
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="main.js"></script>
+  </body>
+
+
+    <!-- Embedded JavaScript -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script>
+const menuBtn = document.getElementById("menu-btn");
+const navLinks = document.getElementById("nav-links");
+const menuBtnIcon = menuBtn.querySelector("i");
+
+menuBtn.addEventListener("click", (e) => {
+  navLinks.classList.toggle("open");
+
+  const isOpen = navLinks.classList.contains("open");
+  menuBtnIcon.setAttribute("class", isOpen ? "ri-close-line" : "ri-menu-line");
+});
+
+navLinks.addEventListener("click", (e) => {
+  navLinks.classList.remove("open");
+  menuBtnIcon.setAttribute("class", "ri-menu-line");
+});
+
+const scrollRevealOption = {
+  distance: "50px",
+  origin: "bottom",
+  duration: 1000,
+};
+
+// header container
+ScrollReveal().reveal(".header__container .section__subheader", {
+  ...scrollRevealOption,
+});
+
+ScrollReveal().reveal(".header__container h1", {
+  ...scrollRevealOption,
+  delay: 500,
+});
+
+ScrollReveal().reveal(".header__container .btn", {
+  ...scrollRevealOption,
+  delay: 1000,
+});
+
+// room container
+ScrollReveal().reveal(".room__card", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+
+// feature container
+ScrollReveal().reveal(".feature__card", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+
+// news container
+ScrollReveal().reveal(".charges-list", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+ScrollReveal().reveal(".charges-content", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+ScrollReveal().reveal(".charges-image", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+ScrollReveal().reveal(".about__image", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+ScrollReveal().reveal(".about__card", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+ScrollReveal().reveal(".about__content", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+ScrollReveal().reveal(".booking__container", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+ScrollReveal().reveal(".menu1", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+
+
+
+
+const modal = document.getElementById("videoModal");
+const btn = document.getElementById("watchVideoBtn");
+const span = document.querySelector(".video-box .close");
+const video = modal.querySelector("video");
+
+btn.onclick = function() {
+  modal.style.display = "flex";
+  video.play();
+}
+
+span.onclick = function() {
+  modal.style.display = "none";
+  video.pause();
+  video.currentTime = 0;
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    video.pause();
+    video.currentTime = 0;
+  }
+}
+
+
+const carousel = document.getElementById("carousel");
+const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
+
+let scrollAmount = 0;
+const cardWidth = carousel.querySelector(".news__card").offsetWidth + 20; // ✅ correct class
+const visibleCards = 3;
+
+nextBtn.addEventListener("click", () => {
+  if (scrollAmount < (carousel.scrollWidth - cardWidth * visibleCards)) {
+    scrollAmount += cardWidth * visibleCards;
+    carousel.scrollTo({ left: scrollAmount, behavior: "smooth" });
+  }
+});
+
+prevBtn.addEventListener("click", () => {
+  if (scrollAmount > 0) {
+    scrollAmount -= cardWidth * visibleCards;
+    carousel.scrollTo({ left: scrollAmount, behavior: "smooth" });
+  }
+});
+
+
+
+
+// Open modal
+document.querySelectorAll(".arrow").forEach(arrow => {
+  arrow.addEventListener("click", () => {
+    let modalId = arrow.getAttribute("data-modal");
+    document.getElementById(modalId).style.display = "flex";
+  });
+});
+
+// Close modal
+document.querySelectorAll(".close").forEach(closeBtn => {
+  closeBtn.addEventListener("click", () => {
+    closeBtn.parentElement.parentElement.style.display = "none";
+  });
+});
+
+// Close when clicking outside
+window.addEventListener("click", (e) => {
+  if (e.target.classList.contains("modal")) {
+    e.target.style.display = "none";
+  }
+});
+
+
+// form
+// Form fade + slide animation
+ScrollReveal().reveal('.apply-card', {
+  duration: 1000,
+  origin: 'bottom',
+  distance: '40px',
+  easing: 'ease-in-out',
+  reset: false   // ❌ was true → now false
+});
+
+// Animate inputs one by one
+ScrollReveal().reveal('.apply-card .field', {
+  duration: 800,
+  origin: 'left',
+  distance: '30px',
+  interval: 150,
+  reset: false   // ❌
+});
+
+// Animate "help" text
+ScrollReveal().reveal('.apply-card .help', {
+  duration: 1000,
+  origin: 'right',
+  distance: '40px',
+  delay: 400,
+  reset: false   // ❌
+});
+
+// Animate Apply Now button
+ScrollReveal().reveal('.apply-card .btn-apply', {
+  duration: 1200,
+  scale: 0.8,
+  delay: 800,
+  reset: false   // ❌
+});
+
+// Animate Login link
+ScrollReveal().reveal('.apply-card .login', {
+  duration: 1000,
+  origin: 'top',
+  distance: '30px',
+  delay: 700,
+  reset: false   // ❌
+});
+
+
+
+// // 
+// // === Slideshow ===
+// let slideIndex = 0;
+// const slides = document.querySelectorAll(".slide");
+// const prevSlideBtn = document.querySelector(".prev");  // renamed
+// const nextSlideBtn = document.querySelector(".next");  // renamed
+// let slideInterval;
+
+// function showSlide(index) {
+//   slides.forEach((slide, i) => {
+//     slide.classList.remove("active");
+//     if (i === index) {
+//       slide.classList.add("active");
+//     }
+//   });
+//   slideIndex = index;
+// }
+
+// function nextSlide() {
+//   slideIndex = (slideIndex + 1) % slides.length;
+//   showSlide(slideIndex);
+// }
+
+// function prevSlideFunc() {
+//   slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+//   showSlide(slideIndex);
+// }
+
+// // Auto slide every 5 seconds
+// function startSlideShow() {
+//   slideInterval = setInterval(nextSlide, 5000);
+// }
+
+// // Stop slideshow when arrows clicked (then restart)
+// function resetSlideShow() {
+//   clearInterval(slideInterval);
+//   startSlideShow();
+// }
+
+// nextSlideBtn.addEventListener("click", () => {   // updated name
+//   nextSlide();
+//   resetSlideShow();
+// });
+
+// prevSlideBtn.addEventListener("click", () => {   // updated name
+//   prevSlideFunc();
+//   resetSlideShow();
+// });
+
+// // Start on page load
+// showSlide(slideIndex);
+// startSlideShow();
+    </script>
+  </body>
+</html>

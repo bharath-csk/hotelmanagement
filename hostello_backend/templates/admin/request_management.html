@@ -1,0 +1,807 @@
+
+<!-- templates/admin/request_management.html -->
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+/* Override Django Admin container restrictions */
+#content {
+    max-width: none !important;
+    padding: 10px !important;
+}
+
+#content-main {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+.request-container {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    margin: 10px auto;  /* Small consistent margin */
+    width: calc(100% - 20px);  /* Full width minus margins */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+
+    .stats-header {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 25px;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 8px;
+        color: white;
+    }
+
+    .stat-box {
+        text-align: center;
+        padding: 15px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 6px;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+    .date-selector {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .date-input {
+        padding: 10px 15px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        font-size: 16px;
+        min-width: 160px;
+    }
+
+    .request-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .request-table th {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 12px;
+        text-align: left;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .request-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+    }
+
+    .request-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .request-table tr:hover {
+        background-color: #f0f8ff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .request-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 300px;
+    }
+
+    .request-title {
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    .request-details {
+        font-size: 0.85rem;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 3px;
+    }
+
+    .request-description {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 5px;
+        padding: 4px 8px;
+        background: #f0f0f0;
+        border-radius: 4px;
+        max-width: 400px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .status-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 140px;
+    }
+
+    /* ✅ DROPDOWN FIX */
+    .status-select {
+        padding: 8px 12px !important;
+        border: 2px solid #ddd !important;
+        border-radius: 6px !important;
+        background: white !important;
+        cursor: pointer !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        transition: all 0.3s ease !important;
+        min-width: 120px !important;
+        appearance: menulist !important; /* Force dropdown arrow */
+        -webkit-appearance: menulist !important;
+        -moz-appearance: menulist !important;
+    }
+
+    .status-select:not([disabled]):hover {
+        border-color: #667eea !important;
+        box-shadow: 0 2px 5px rgba(102, 126, 234, 0.2) !important;
+    }
+
+    .status-select:focus {
+        outline: none !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2) !important;
+        border-color: #667eea !important;
+    }
+
+    .status-select[disabled] {
+        opacity: 0.6 !important;
+        cursor: not-allowed !important;
+    }
+
+    /* Status-specific styling */
+    .status-select.pending {
+        border-color: #ffc107 !important;
+        background: #fff3cd !important;
+        color: #856404 !important;
+    }
+
+    .status-select.approved {
+        border-color: #28a745 !important;
+        background: #d4edda !important;
+        color: #155724 !important;
+    }
+
+    .status-select.rejected {
+        border-color: #dc3545 !important;
+        background: #f8d7da !important;
+        color: #721c24 !important;
+    }
+
+    .status-select.completed {
+        border-color: #17a2b8 !important;
+        background: #d1ecf1 !important;
+        color: #0c5460 !important;
+    }
+
+
+    .priority-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: white;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
+    .type-badge {
+        padding: 6px 10px;
+        border-radius: 15px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 8px;
+        width: fit-content;
+        color: black;
+    }
+
+    .response-input {
+        width: 100%;
+        padding: 6px 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 12px;
+        resize: vertical;
+        min-height: 40px;
+    }
+
+    .update-btn {
+        padding: 6px 12px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+
+    .update-btn:hover {
+        background: #5a67d8;
+        transform: translateY(-1px);
+    }
+
+    .bulk-actions {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #e9ecef;
+        border-radius: 8px;
+    }
+
+    .bulk-actions h3 {
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+        font-size: 14px;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .btn-success {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+    }
+
+    .btn-info {
+        background: #17a2b8;
+        color: white;
+    }
+
+    .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 6px;
+        color: white;
+        font-weight: 500;
+        z-index: 1000;
+        display: none;
+    }
+
+    .toast.success {
+        background: #28a745;
+    }
+
+    .toast.error {
+        background: #dc3545;
+    }
+
+    @media (max-width: 768px) {
+        .request-container {
+            padding: 15px;
+        }
+
+        .stats-header {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .date-selector {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .request-table {
+            font-size: 0.8rem;
+        }
+
+        .request-info {
+            min-width: 200px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="request-container">
+    <h1 style="color: #333; margin-bottom: 20px;">📋 Student Request Management</h1>
+
+    <!-- Statistics Header -->
+    <div class="stats-header">
+        <div class="stat-box">
+            <div class="stat-number">{{ total_requests }}</div>
+            <div class="stat-label">Total Requests</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">{{ pending_requests }}</div>
+            <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">{{ approved_requests }}</div>
+            <div class="stat-label">Approved</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">{{ completed_requests }}</div>
+            <div class="stat-label">Completed</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">{{ rejected_requests }}</div>
+            <div class="stat-label">Rejected</div>
+        </div>
+    </div>
+
+    <!-- Date Selector -->
+    <div class="date-selector">
+        <form method="get" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+            <label for="date" style="font-weight: 600; color: #333;">📅 Filter by Date:</label>
+            {% comment %} <input type="date" id="date" name="date" value="{{ selected_date|date:'Y-m-d' }}" 
+                   class="date-input" onchange="this.form.submit()"> {% endcomment %}
+            <input type="date" id="date" name="date" value="{{ selected_date|date:'Y-m-d' }}" class="date-input">
+
+            <span style="color: #666; font-size: 14px;">{{ selected_date|date:'l, d F Y' }}</span>
+            <button type="submit" class="btn btn-primary">Update View</button>
+        </form>
+    </div>
+
+    <!-- ✅ FIXED: Bulk Actions with Proper Quote Handling -->
+    <div class="bulk-actions">
+        <h3>⚡ Quick Actions</h3>
+        <form method="post" action="{% url 'admin:bulk_request_status' %}" style="display: inline;" onsubmit="return handleBulkAction(this)">
+            {% csrf_token %}
+            <input type="hidden" name="date" value="{{ selected_date|date:'Y-m-d' }}">
+            
+            <button type="submit" name="action" value="approve_all" class="btn btn-success" id="approve-btn">
+                ✅ Approve All Pending
+            </button>
+            
+            <button type="submit" name="action" value="reject_all" class="btn btn-danger" id="reject-btn"
+                    onclick="return confirm('Are you sure you want to reject ALL pending requests?')">
+                ❌ Reject All Pending
+            </button>
+            
+            <button type="submit" name="action" value="complete_all" class="btn btn-info" id="complete-btn">
+                🎉 Complete All Approved
+            </button>
+        </form>
+        <!-- ✅ FIXED: Status Info with Proper Template Variables -->
+        <div style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 6px; font-size: 14px; color: #666;">
+            <strong>Current Status for {{ selected_date|date:"d M Y" }}:</strong>
+            {{ pending_requests }} Pending • {{ approved_requests }} Approved • {{ rejected_requests }} Rejected • {{ completed_requests }} Completed
+        </div>
+    </div>
+
+    <!-- Request Table -->
+    <div style="overflow-x: auto;">
+        <table class="request-table">
+            <thead>
+                <tr>
+                    <th style="min-width: 300px;">📋 Request Details</th>
+                    <th style="min-width: 200px;">👤 Student Info</th>
+                    <th style="min-width: 140px;">⚡ Status Update</th>
+                    {% comment %} <th style="min-width: 150px;">💬 Warden Response</th> {% endcomment %}
+                    <th style="min-width: 100px;">📊 Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in request_data %}
+                <tr id="request-row-{{ data.request.id }}">
+                    <!-- Request Details -->
+                    <td>
+                        <div class="request-info">
+                            <div class="type-badge" style="background-color: {{ data.request.get_request_type_display|lower|add:'-color' }};">
+                                {{ data.type_icon }} {{ data.request.get_request_type_display }}
+                            </div>
+                            <div class="priority-badge" style="background-color: {{ data.priority_color }};">
+                                {{ data.request.get_priority_display|upper }} Priority
+                            </div>
+                            <div class="request-title">{{ data.request.title }}</div>
+                            <div class="request-details">
+                                <span>📋 ID: {{ data.request.id }}</span>
+                                <span>📅 {{ data.request.created_at|date:'d M, Y H:i' }}</span>
+                            </div>
+                            <div class="request-description" title="{{ data.request.description }}">
+                                {{ data.request.description|truncatechars:100 }}
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Student Info -->
+                    <td>
+                        <div class="request-details">
+                            <strong>{{ data.request.student.full_name }}</strong>
+                        </div>
+                        <div class="request-details">
+                            <span>📋 {{ data.request.student.admission_number }}</span>
+                        </div>
+                        <div class="request-details">
+                            <span>🏠 Room {{ data.request.student.room_number|default:"Not Assigned" }}</span>
+                        </div>
+                        <div class="request-details">
+                            <span>📧 {{ data.request.student.email }}</span>
+                        </div>
+                        <div class="request-details">
+                            <span>🎓 {{ data.request.student.program }}</span>
+                        </div>
+                    </td>
+
+                    <!-- Status Update -->
+                    <td>
+                        <div class="status-controls">
+                            <select class="status-select {{ data.request.status }}" 
+                                    data-request-id="{{ data.request.id }}"
+                                    onchange="updateRequestStatus({{ data.request.id }}, this.value)"
+                                    {% if not data.can_update %}disabled{% endif %}>
+                                <option value="pending" {% if data.request.status == 'pending' %}selected{% endif %}>⏳ Pending</option>
+                                <option value="approved" {% if data.request.status == 'approved' %}selected{% endif %}>✅ Approved</option>
+                                <option value="rejected" {% if data.request.status == 'rejected' %}selected{% endif %}>❌ Rejected</option>
+                                <option value="completed" {% if data.request.status == 'completed' %}selected{% endif %}>🎉 Completed</option>
+                            </select>
+                            {% if data.request.processed_by %}
+                                <div style="font-size: 11px; color: #666; text-align: center;">
+                                    By: {{ data.request.processed_by.username }}<br>
+                                    {{ data.request.processed_at|date:'d M, H:i' }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </td>
+
+                    <!-- Warden Response -->
+                    {% comment %} <td>
+                        <div class="status-controls">
+                            <textarea class="response-input" 
+                                      id="response-{{ data.request.id }}"
+                                      placeholder="Enter response...">{{ data.request.warden_response|default:"" }}</textarea>
+                            <button class="update-btn" onclick="updateWithResponse({{ data.request.id }})">
+                                💾 Save Response
+                            </button>
+                        </div>
+                    </td> {% endcomment %}
+
+                    <!-- Info -->
+                    <td style="text-align: center; font-size: 0.8rem; color: #666;">
+                        <div>{{ data.time_since_creation }} day{{ data.time_since_creation|pluralize }} ago</div>
+                        <div style="font-size: 0.7rem; margin-top: 5px;">
+                            Status: <span style="color: {{ data.status_color }}; font-weight: bold;">{{ data.request.status|capfirst }}</span>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 40px; color: #666;">
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">📋</div>
+                        <div>No requests found for selected date.</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Try selecting a different date or clear the date filter.</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Instructions -->
+    <div style="margin-top: 25px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
+        <h4 style="color: #667eea; margin-bottom: 10px;">📝 Instructions</h4>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+            <li><strong>Status Updates:</strong> Change request status using dropdown. Students get notified automatically.</li>
+            <li><strong>Warden Response:</strong> Add response/comments and click Save to store them.</li>
+            <li><strong>Bulk Actions:</strong> Use quick actions to approve/reject multiple requests at once.</li>
+            <li><strong>Notifications:</strong> Students see status changes on their dashboard immediately.</li>
+            <li><strong>Priority:</strong> Higher priority requests are shown with red/orange badges.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+<script>
+// ✅ ENHANCED REQUEST STATUS UPDATE WITH DEBUGGING
+
+function updateRequestStatus(requestId, newStatus) {
+    console.log(`🔧 Updating request ${requestId} to ${newStatus}`);
+    
+    // Show loading state
+    const select = document.querySelector(`[data-request-id="${requestId}"]`);
+    if (!select) {
+        console.error(`❌ Select element not found for request ${requestId}`);
+        return;
+    }
+    
+    const originalValue = select.value;
+    select.disabled = true;
+    select.style.opacity = '0.6';
+    select.style.cursor = 'wait';
+    
+    // Prepare form data
+    const formData = new FormData();
+    formData.append('request_id', requestId);
+    formData.append('status', newStatus);
+    
+    // Get CSRF token
+    const csrfToken = getCsrfToken();
+    if (csrfToken) {
+        formData.append('csrfmiddlewaretoken', csrfToken);
+        console.log('🔐 CSRF token added');
+    } else {
+        console.warn('⚠️ No CSRF token found');
+    }
+
+    // Make request
+    fetch('{% url "admin:update_request_status" %}', {
+        method: 'POST',
+        body: formData,
+        credentials: 'same-origin',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        console.log(`📊 Response status: ${response.status}`);
+        console.log('📊 Response headers:', response.headers);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        return response.text(); // Get text first to debug
+    })
+    .then(responseText => {
+        console.log('📋 Raw response:', responseText);
+        
+        // Try to parse as JSON
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (e) {
+            console.error('❌ Failed to parse JSON:', e);
+            throw new Error('Invalid JSON response from server');
+        }
+        
+        console.log('📋 Parsed response data:', data);
+        
+        if (data.success) {
+            // Update select styling
+            select.className = `status-select ${newStatus}`;
+            
+            // Show success toast
+            showToast(data.message || `Status updated to ${newStatus.toUpperCase()}`, 'success');
+            
+            console.log('✅ Status updated successfully');
+            
+            // Refresh page after 2 seconds to show updated data
+            setTimeout(() => {
+                console.log('🔄 Refreshing page...');
+                location.reload();
+            }, 2000);
+        } else {
+            // Revert select value on error
+            select.value = originalValue;
+            const errorMsg = data.message || 'Unknown error occurred';
+            showToast('Error: ' + errorMsg, 'error');
+            console.error('❌ Update failed:', errorMsg);
+        }
+    })
+    .catch(error => {
+        // Revert select value on error
+        select.value = originalValue;
+        console.error('❌ Network/Parse error:', error);
+        showToast(`Network error: ${error.message}`, 'error');
+    })
+    .finally(() => {
+        // Always restore select state
+        select.disabled = false;
+        select.style.opacity = '1';
+        select.style.cursor = 'pointer';
+        console.log('🔄 Select state restored');
+    });
+}
+
+function updateWithResponse(requestId) {
+    console.log(`💬 Updating response for request ${requestId}`);
+    
+    const responseText = document.getElementById(`response-${requestId}`).value;
+    const statusSelect = document.querySelector(`[data-request-id="${requestId}"]`);
+    
+    if (!statusSelect) {
+        console.error(`❌ Status select not found for request ${requestId}`);
+        return;
+    }
+    
+    const currentStatus = statusSelect.value;
+    
+    const formData = new FormData();
+    formData.append('request_id', requestId);
+    formData.append('status', currentStatus);
+    formData.append('warden_response', responseText);
+    
+    // Get CSRF token
+    const csrfToken = getCsrfToken();
+    if (csrfToken) {
+        formData.append('csrfmiddlewaretoken', csrfToken);
+    }
+
+    fetch('{% url "admin:update_request_status" %}', {
+        method: 'POST',
+        body: formData,
+        credentials: 'same-origin',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('✅ Response saved successfully!', 'success');
+            console.log('✅ Response saved successfully');
+        } else {
+            showToast('Error: ' + (data.message || 'Failed to save response'), 'error');
+            console.error('❌ Response save failed:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('❌ Network error:', error);
+        showToast(`Network error: ${error.message}`, 'error');
+    });
+}
+
+// ✅ IMPROVED CSRF Token Function
+function getCsrfToken() {
+    // Method 1: From cookie
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=');
+        if (name === 'csrftoken') {
+            return decodeURIComponent(value);
+        }
+    }
+    
+    // Method 2: From meta tag
+    const metaToken = document.querySelector('meta[name=csrf-token]');
+    if (metaToken) {
+        return metaToken.getAttribute('content');
+    }
+    
+    // Method 3: From form token
+    const formToken = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (formToken) {
+        return formToken.value;
+    }
+    
+    console.warn('⚠️ CSRF token not found');
+    return '';
+}
+
+function showToast(message, type) {
+    const toast = document.getElementById('toast');
+    if (toast) {
+        toast.textContent = message;
+        toast.className = `toast ${type}`;
+        toast.style.display = 'block';
+
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 4000);
+    } else {
+        // Fallback to alert if toast not found
+        alert(message);
+    }
+}
+
+// ✅ ENHANCED Debug function
+function testDropdown() {
+    console.log('🧪 Testing dropdown functionality...');
+    
+    const dropdowns = document.querySelectorAll('.status-select');
+    console.log(`Found ${dropdowns.length} dropdowns`);
+    
+    dropdowns.forEach((dropdown, index) => {
+        const isDisabled = dropdown.disabled;
+        const requestId = dropdown.dataset.requestId;
+        
+        console.log(`Dropdown ${index + 1}:`, {
+            requestId: requestId,
+            value: dropdown.value,
+            disabled: isDisabled,
+            canUpdate: !isDisabled,
+            className: dropdown.className,
+            options: Array.from(dropdown.options).map(opt => ({ 
+                value: opt.value, 
+                text: opt.text, 
+                selected: opt.selected 
+            }))
+        });
+        
+        if (isDisabled) {
+            console.warn(`⚠️ Dropdown ${index + 1} is DISABLED for request ${requestId}`);
+        }
+    });
+    
+    const csrfToken = getCsrfToken();
+    console.log('CSRF Token:', csrfToken ? `Found: ${csrfToken.substring(0, 10)}...` : 'Missing');
+    
+    // Test URL
+    console.log('Update URL:', '{% url "admin:update_request_status" %}');
+}
+
+console.log('📋 Request Management Interface Loaded');
+console.log('✅ Enhanced real-time status updates ready');
+console.log('🧪 Run testDropdown() in console to debug');
+
+// Auto-test on load
+setTimeout(testDropdown, 1000);
+
+function handleBulkAction(form) {
+    const actionBtn = document.activeElement;
+    const originalText = actionBtn.innerHTML;
+    
+    // Show loading state
+    actionBtn.innerHTML = '⏳ Processing...';
+    actionBtn.disabled = true;
+    
+    // Re-enable after 5 seconds in case of issues
+    setTimeout(() => {
+        actionBtn.innerHTML = originalText;
+        actionBtn.disabled = false;
+    }, 5000);
+    
+    return true; // Allow form submission
+}
+</script>
+
+{% endblock %}

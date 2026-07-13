@@ -1,0 +1,1505 @@
+{% load static %}
+<style>
+    /* ==================== WARM SOFT COLOR BACKGROUNDS ==================== */
+    body.change-list {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: visible !important;
+        background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%) !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    }
+
+    .main {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+    }
+
+    #content {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 15px !important;
+        overflow: visible !important;
+        background: transparent !important;
+    }
+
+    #content-main {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    .change-list, #changelist {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    .results {
+        width: 100% !important;
+        overflow-x: visible !important;
+        margin: 0 !important;
+    }
+
+    .colM, .colSM {
+        margin-left: 0 !important;
+    }
+
+    #header, #breadcrumbs, #footer {
+        margin: 0 !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        background: #fef8f0 !important; /* Warm cream */
+        backdrop-filter: blur(10px) !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+    }
+
+    #navigation-sidebar {
+        width: 220px;
+        background: #fef8f0 !important; /* Warm cream */
+        box-shadow: 2px 0 15px rgba(0,0,0,0.08) !important;
+    }
+
+    .main > .content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    /* ==================== WARM CREAM CONTAINER ==================== */
+    .attendance-container {
+        background: linear-gradient(145deg, #fef9f3 0%, #fef6ed 100%); /* Warm ivory to peach */
+        border-radius: 20px;
+        padding: 30px;
+        margin: 20px auto;
+        width: calc(100% - 60px);
+        max-width: none;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        min-height: 100vh;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* ==================== MODERN GRADIENT STATS HEADER ==================== */
+    .stats-header {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 16px;
+        margin-bottom: 30px;
+        padding: 25px;
+        background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
+        border-radius: 16px;
+        color: #ffffff;
+        width: 100%;
+        box-shadow: 0 8px 30px rgba(74, 144, 226, 0.3);
+    }
+
+    .stat-box {
+        text-align: center;
+        padding: 16px;
+        background: rgba(255,255,255,0.18);
+        border-radius: 12px;
+        min-width: 140px;
+        border: 2px solid rgba(255,255,255,0.25);
+        transition: all 0.3s ease;
+    }
+
+    .stat-box:hover {
+        transform: translateY(-5px);
+        background: rgba(255,255,255,0.28);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .stat-number {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+        color: #ffffff;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: #f5f5f5;
+        line-height: 1.3;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* ==================== WARM DATE SELECTOR ==================== */
+    .date-debug {
+        background: #e1f5fe;
+        color: #01579b;
+        padding: 14px 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+        border-left: 5px solid #0277bd;
+        box-shadow: 0 4px 15px rgba(2, 119, 189, 0.15);
+        font-weight: 700;
+    }
+
+    .date-selector {
+        margin-bottom: 30px;
+        padding: 25px;
+        background: linear-gradient(145deg, #fff8f0 0%, #ffefd5 100%); /* Warm cream gradient */
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        width: 100%;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        border: 2px solid #e8d4b8;
+    }
+
+    .date-input {
+        padding: 14px 20px !important;
+        border: 3px solid #4a90e2 !important;
+        border-radius: 12px !important;
+        font-size: 17px !important;
+        min-width: 200px !important;
+        background: #fffaf5 !important; /* Very light warm */
+        color: #2d3748 !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.15) !important;
+    }
+
+    .date-input:focus {
+        outline: none !important;
+        border-color: #7b68ee !important;
+        box-shadow: 0 0 0 4px rgba(123, 104, 238, 0.2), 0 8px 25px rgba(74, 144, 226, 0.2) !important;
+        background: #fff !important;
+        transform: translateY(-2px);
+    }
+
+    .date-input:hover {
+        border-color: #7b68ee !important;
+        background: #fffbf7 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(74, 144, 226, 0.2) !important;
+    }
+
+    /* ==================== WARM TABLE STYLING ==================== */
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin: 0;
+        padding: 0;
+        display: block !important;
+        visibility: visible !important;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        background: #fffbf7; /* Warm white */
+    }
+
+    .table-container::-webkit-scrollbar {
+        height: 10px;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+        background: #fef5ed;
+        border-radius: 5px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+        background: linear-gradient(90deg, #4a90e2 0%, #7b68ee 100%);
+        border-radius: 5px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(90deg, #7b68ee 0%, #4a90e2 100%);
+    }
+
+    .attendance-table {
+        width: 100% !important;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        border-radius: 16px;
+        overflow: hidden;
+        table-layout: auto;
+        display: table !important;
+        background: #fffbf7; /* Warm white background */
+    }
+
+    .attendance-table th {
+        background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
+        color: #ffffff;
+        padding: 16px 12px;
+        text-align: left;
+        font-weight: 700;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 3px solid rgba(255,255,255,0.2);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .attendance-table td {
+        padding: 14px 12px;
+        border-bottom: 1px solid #f5e6d3;
+        vertical-align: middle;
+        font-size: 0.95rem;
+        background: #fffbf7; /* Warm white */
+        color: #2d3748;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    .attendance-table tr:nth-child(even) td {
+        background-color: #fff8f0; /* Light warm peach */
+    }
+
+    .attendance-table tr:hover td {
+        background-color: #ffedd5 !important; /* Warm orange tint on hover */
+        box-shadow: 0 4px 15px rgba(237, 137, 54, 0.15);
+        transform: scale(1.003);
+    }
+
+    /* ==================== STUDENT INFO STYLING ==================== */
+    .student-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 300px;
+        max-width: 380px;
+    }
+
+    .student-name {
+        font-weight: 800;
+        color: #1a202c;
+        font-size: 1.1rem;
+    }
+
+    .student-details {
+        font-size: 0.85rem;
+        color: #4a5568;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .student-details span {
+        padding: 5px 12px;
+        background: linear-gradient(145deg, #fff8f0 0%, #ffefd5 100%); /* Warm gradient */
+        border-radius: 8px;
+        border: 2px solid #e8d4b8;
+        color: #2d3748;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .student-details span:hover {
+        background: linear-gradient(145deg, #ffedd5 0%, #fed7aa 100%);
+        border-color: #f97316;
+        transform: scale(1.05);
+    }
+
+    .student-stats {
+        font-size: 0.8rem;
+        color: #22543d;
+        margin-top: 6px;
+        padding: 6px 10px;
+        background: linear-gradient(145deg, #c6f6d5 0%, #9ae6b4 100%);
+        border-radius: 8px;
+        display: inline-block;
+        border: 2px solid #48bb78;
+        font-weight: 700;
+    }
+
+    /* ==================== MODERN CONTROLS ==================== */
+    .attendance-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 120px;
+        max-width: 140px;
+    }
+
+    .attendance-select {
+        padding: 8px 12px;
+        border: 3px solid #cbd5e0;
+        border-radius: 10px;
+        background: #fffbf7; /* Warm white */
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        color: #2d3748;
+    }
+
+    .attendance-select:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2), 0 4px 12px rgba(0,0,0,0.12);
+        transform: scale(1.05);
+    }
+
+    .attendance-select.present {
+        border-color: #48bb78;
+        background: linear-gradient(145deg, #c6f6d5 0%, #9ae6b4 100%);
+        color: #22543d;
+        box-shadow: 0 4px 15px rgba(72, 187, 120, 0.25);
+    }
+
+    .attendance-select.absent {
+        border-color: #f56565;
+        background: linear-gradient(145deg, #fed7d7 0%, #feb2b2 100%);
+        color: #742a2a;
+        box-shadow: 0 4px 15px rgba(245, 101, 101, 0.25);
+    }
+
+    .attendance-select.not-marked {
+        border-color: #ed8936;
+        background: linear-gradient(145deg, #feebc8 0%, #fbd38d 100%);
+        color: #7c2d12;
+        box-shadow: 0 4px 15px rgba(237, 137, 54, 0.25);
+    }
+
+    /* ==================== MEAL STYLING ==================== */
+    .mess-attendance {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 220px;
+        max-width: 250px;
+    }
+
+    .meal-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 3px 0;
+    }
+
+    .meal-label {
+        font-size: 0.8rem;
+        min-width: 75px;
+        font-weight: 700;
+        color: #2d3748;
+        text-transform: capitalize;
+    }
+
+    .meal-select {
+        padding: 5px 8px;
+        border: 2px solid #cbd5e0;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        min-width: 70px;
+        max-width: 85px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        background: #fffbf7; /* Warm white */
+        color: #2d3748;
+    }
+
+    .meal-select:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .meal-select.present {
+        background: linear-gradient(145deg, #c6f6d5 0%, #9ae6b4 100%);
+        color: #22543d;
+        border-color: #48bb78;
+    }
+
+    .meal-select.absent {
+        background: linear-gradient(145deg, #fed7d7 0%, #feb2b2 100%);
+        color: #742a2a;
+        border-color: #f56565;
+    }
+
+    /* ==================== MODERN STATUS BADGES ==================== */
+    .status-indicator {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+        min-width: 100px;
+        max-width: 120px;
+    }
+
+    .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        text-align: center;
+        min-width: 80px;
+        line-height: 1.3;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+        transition: all 0.3s ease;
+    }
+
+    .status-badge:hover {
+        transform: scale(1.1);
+    }
+
+    .status-present {
+        background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        color: #ffffff;
+        border: 2px solid #2f855a;
+    }
+
+    .status-absent {
+        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        color: #ffffff;
+        border: 2px solid #c53030;
+    }
+
+    .status-not-marked {
+        background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+        color: #ffffff;
+        border: 2px solid #4a5568;
+    }
+
+    .marked-by {
+        font-size: 0.7rem;
+        color: #4a5568;
+        text-align: center;
+        line-height: 1.2;
+        font-weight: 600;
+    }
+
+    /* ==================== WARM BULK ACTIONS ==================== */
+    .bulk-actions {
+        margin-bottom: 30px;
+        padding: 25px;
+        background: linear-gradient(145deg, #fff8f0 0%, #ffefd5 100%); /* Warm gradient */
+        border-radius: 16px;
+        width: 100%;
+        border: 2px solid #e8d4b8;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+    }
+
+    .bulk-actions h3 {
+        margin-bottom: 25px;
+        color: #1a202c;
+        font-size: 1.4rem;
+        font-weight: 800;
+    }
+
+    .action-section {
+        margin-bottom: 25px;
+        padding: 25px;
+        background: #fffbf7; /* Warm white */
+        border-radius: 16px;
+        border: 2px solid #e8d4b8;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        transition: all 0.3s ease;
+    }
+
+    .action-section:hover {
+        box-shadow: 0 8px 30px rgba(74, 144, 226, 0.12);
+        transform: translateY(-2px);
+    }
+
+    .date-nav-section {
+        border-left: 5px solid #4299e1;
+    }
+
+    .room-section {
+        border-left: 5px solid #48bb78;
+    }
+
+    .mess-section {
+        border-left: 5px solid #ed8936;
+    }
+
+    .utility-section {
+        border-left: 5px solid #718096;
+    }
+
+    .action-section h4 {
+        margin: 0 0 18px 0;
+        color: #1a202c;
+        font-size: 1.2rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .action-section h5 {
+        margin: 0 0 12px 0;
+        color: #2d3748;
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .meal-group {
+        margin-bottom: 18px;
+        padding: 18px;
+        background: linear-gradient(145deg, #fff8f0 0%, #fef5ed 100%); /* Warm gradient */
+        border-radius: 12px;
+        border: 2px solid #e8d4b8;
+    }
+
+    .meal-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .individual-meals {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .meal-buttons-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 14px;
+        background: #fffbf7; /* Warm white */
+        border-radius: 10px;
+        border: 2px solid #e8d4b8;
+        transition: all 0.3s ease;
+    }
+
+    .meal-buttons-row:hover {
+        border-color: #4a90e2;
+        box-shadow: 0 4px 15px rgba(74, 144, 226, 0.12);
+    }
+
+    .meal-title {
+        font-weight: 800;
+        min-width: 110px;
+        color: #1a202c;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+    }
+
+    /* ==================== MODERN BUTTONS ==================== */
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 800;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .btn:active {
+        transform: translateY(-1px);
+    }
+
+    .btn-sm {
+        padding: 7px 14px;
+        font-size: 0.85rem;
+        border-radius: 8px;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        color: #ffffff;
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        color: #ffffff;
+    }
+
+    .btn-danger:hover {
+        background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+        color: #ffffff;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+    }
+
+    .btn-info {
+        background: linear-gradient(135deg, #4fd1c5 0%, #38b2ac 100%);
+        color: #ffffff;
+    }
+
+    .btn-info:hover {
+        background: linear-gradient(135deg, #38b2ac 0%, #319795 100%);
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+        color: #ffffff;
+    }
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #dd6b20 0%, #c05621 100%);
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+        color: #ffffff;
+    }
+
+    .btn-secondary:hover {
+        background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+    }
+
+    /* ==================== MODERN TOAST ==================== */
+    .toast {
+        position: fixed;
+        top: 30px;
+        right: 30px;
+        padding: 18px 25px;
+        border-radius: 12px;
+        color: #ffffff;
+        font-weight: 700;
+        z-index: 10000;
+        display: none;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+        animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .toast.success {
+        background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    }
+
+    .toast.error {
+        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+    }
+
+    .toast.info {
+        background: linear-gradient(135deg, #4fd1c5 0%, #38b2ac 100%);
+    }
+
+    /* ==================== WARM INSTRUCTIONS ==================== */
+    .instructions {
+        margin-top: 30px;
+        padding: 25px;
+        background: linear-gradient(145deg, #fff8f0 0%, #ffefd5 100%); /* Warm gradient */
+        border-radius: 16px;
+        border-left: 6px solid #4a90e2;
+        width: 100%;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    }
+
+    .instructions h4 {
+        color: #1a202c;
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+        font-weight: 800;
+    }
+
+    .instructions ul {
+        margin: 12px 0;
+        padding-left: 25px;
+    }
+
+    .instructions li {
+        margin: 8px 0;
+        color: #2d3748;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        font-weight: 500;
+    }
+
+    .logic-info {
+        background: linear-gradient(145deg, #e6f3ff 0%, #cce5ff 100%);
+        color: #1a365d;
+        padding: 16px 25px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        border-left: 6px solid #4299e1;
+        width: 100%;
+        font-size: 1rem;
+        font-weight: 700;
+        box-shadow: 0 4px 15px rgba(66, 153, 225, 0.15);
+    }
+
+    /* ==================== RESPONSIVE DESIGN ==================== */
+    @media (max-width: 1400px) {
+        .student-info { min-width: 260px; }
+        .mess-attendance { min-width: 200px; }
+    }
+
+    @media (max-width: 1200px) {
+        .attendance-table { font-size: 0.9rem; }
+        .student-info { min-width: 220px; }
+        .attendance-controls { min-width: 110px; }
+        .mess-attendance { min-width: 180px; }
+        .stat-number { font-size: 1.8rem; }
+    }
+
+    @media (max-width: 1000px) {
+        .stats-header { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+        .attendance-container {
+            padding: 20px;
+            width: calc(100% - 40px);
+            border-radius: 15px;
+        }
+        .stats-header {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 20px;
+        }
+        .date-selector {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 20px;
+        }
+        .attendance-table { font-size: 0.85rem; }
+        .student-info { min-width: 200px; }
+        .mess-attendance { min-width: 160px; }
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .action-buttons {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        .individual-meals { gap: 10px; }
+        .meal-buttons-row {
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .meal-title {
+            min-width: auto;
+            width: 100%;
+            margin-bottom: 6px;
+        }
+        .btn {
+            padding: 12px 20px;
+            font-size: 13px;
+        }
+        .toast {
+            right: 15px;
+            top: 15px;
+            padding: 15px 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .action-section { padding: 18px; }
+        .meal-group { padding: 14px; }
+        .attendance-container {
+            width: calc(100% - 30px);
+            padding: 15px;
+        }
+        .stat-number { font-size: 1.6rem; }
+        .btn {
+            padding: 10px 16px;
+            font-size: 12px;
+        }
+    }
+
+    /* ==================== PRINT STYLES ==================== */
+    @media print {
+        .bulk-actions, .date-selector, .btn {
+            display: none !important;
+        }
+        .attendance-container {
+            box-shadow: none;
+            padding: 10px;
+        }
+        .attendance-table { font-size: 10px; }
+    }
+</style>
+
+
+
+
+{% comment %} {% endblock %} {% endcomment %}
+{% block content %}
+<div class="attendance-container">
+    <h1 style="color: #333; margin-bottom: 20px; font-size: 1.5rem;">📊 Student Fee Details</h1>
+
+    
+
+    <!-- FIXED: Simple Date Selector that ACTUALLY WORKS -->
+    <div class="date-selector">
+        <form method="get" id="dateForm" action="" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; width: 100%;">
+            <label for="date" style="font-weight: 600; color: #333; font-size: 18px;">📅 Select Date:</label>
+            
+            <!-- FIXED: Working date input -->
+            <input type="date" 
+                   id="dateInput" 
+                   name="date" 
+                   value="{{ selected_date|date:'Y-m-d' }}" 
+                   class="date-input" 
+                   min="2020-01-01"
+                   max="2030-12-31"
+                   style="cursor: pointer !important;">
+            
+            <span style="color: #666; font-size: 16px; font-weight: 500;">
+                {{ selected_date|date:'l, d F Y' }}
+            </span>
+            
+            <button type="submit" class="btn btn-primary" style="font-size: 14px;">🔄 Update View</button>
+            
+            <div style="margin-left: auto;">
+                {% if date_info.is_today %}
+                    {% comment %} <span style="color: #28a745; font-weight: 600;">📅 Today's Attendance</span> {% endcomment %}
+                {% elif date_info.is_past %}
+                    <span style="color: #6c757d; font-weight: 600;">⏪ Historical Data</span>
+                {% elif date_info.is_future %}
+                    <span style="color: #007bff; font-weight: 600;">⏩ Future Planning</span>
+                {% else %}
+                    {% comment %} <span style="color: #28a745; font-weight: 600;">✅ Enhanced Design Active</span> {% endcomment %}
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    
+
+    <!-- Rest of the table content remains the same... -->
+    <div class="table-container">
+        <table class="attendance-table">
+            <thead>
+                <tr>
+                    <th style="min-width: 280px;">👤 Student Details</th>
+                    <th style="min-width: 200px;">🏠 Hostel Fee</th>
+                    <th style="min-width: 200px;">🍽️ Mess Fee</th>
+                    <th style="min-width: 90px;">📊 Total Amount</th>
+                    <th style="min-width: 70px;">📈 Stats</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in student_data %}
+                <tr id="student-row-{{ data.student.id }}">
+                    <td>
+                        <div class="student-info">
+                            <div class="student-name">{{ data.student.full_name }}</div>
+                            <div class="student-details">
+                                <span>📋 {{ data.student.admission_number }}</span>
+                                <span>🏠 Room {{ data.student.room_number|default:"Not Assigned" }}</span>
+                                <span>🎓 {{ data.student.program }}</span>
+                            </div>
+                            <div class="student-details">
+                                <span>📧 {{ data.student.email }}</span>
+                                <span>📱 {{ data.student.mobile }}</span>
+                                <span>🏙️ {{ data.student.city }}</span>
+                            </div>
+                            <div class="student-details">
+                                <span>📚 {{ data.student.discipline }}</span>
+                                <span>👨‍👩‍👧‍👦 {{ data.student.guardian_name }}</span>
+                                <span>👨‍👩‍👧‍👦 {{ data.student.room_type }}</span>
+                                <span>👨‍👩‍👧‍👦 {{ data.student.ac_type }}</span>
+                            </div>
+                            <div style="margin-bottom: 3px; padding: 2px 4px; background: #e8f5e8; border-radius: 3px; font-size: 0.75rem;">
+                                <strong>🏠 Room:</strong> Present: {{ data.stats.room_present_count }} | Absent: {{ data.stats.room_absent_count }} | 
+                                Rate: {{ data.stats.room_attendance_percentage }}%
+                            </div>
+                                <!-- Mess Attendance Stats -->
+                            <div style="padding: 2px 4px; background: #fff3e0; border-radius: 3px; font-size: 0.75rem;">
+                                <strong>🍽️ Mess:</strong> Present: {{ data.mess_present_days }} | Absent: {{ data.mess_absent_days }} | 
+                                Rate: {{ data.mess_attendance_rate }}%
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div style="font-weight: 700; color: #ffc107; margin: 6px 0;">🏠 HOSTEL FEE</div>
+                        <div style="font-size: 0.9rem;">Base Fee: ₹2,000 (4 Seater)</div>
+
+                        {% with rt=data.student.room_number rt_type=data.student.room_type ac=data.student.ac_type %}
+                            {% if data.student.room_type == '1 Seater' %}
+                                <div style="color:#28a745; margin:4px 0;">➕ Single Room: +₹1,500 | Subtotal: ₹3,500</div>
+                            {% elif data.student.room_type == '2 Seater' %}
+                                <div style="color:#28a745; margin:4px 0;">➕ Double Room: +₹1,000 | Subtotal: ₹3,000</div>
+                            {% elif data.student.room_type == '3 Seater' %}
+                                <div style="color:#28a745; margin:4px 0;">➕ Triple Room: +₹500 | Subtotal: ₹2,500</div>
+                            {% else %}
+                                <div style="opacity:.8; margin:4px 0;">➖ 4 Seater: ₹0 increment | Subtotal: ₹2,000</div>
+                            {% endif %}
+
+                            {% if data.student.ac_type == 'A/C' or data.student.ac_type == 'AC' %}
+                                <div style="color:#28a745; margin:4px 0;">➕ A/C: +₹1,000</div>
+                            {% else %}
+                                <div style="opacity:.8; margin:4px 0;">➖ Non A/C: +₹0</div>
+                            {% endif %}
+                        {% endwith %}
+
+                        <div style="margin-top:6px; padding:6px 8px; background:#222; border-radius:6px; color:#fff;">
+                            Final Hostel Fee: ₹{{ data.hostel_fee }}
+                        </div>
+                    </td>
+
+
+                    <td>
+                        <div style="font-weight: bold; color: #fd7e14; margin: 15px 0 8px 0; padding: 6px 8px; border-left: 3px solid #fd7e14;">
+                            🍽️ MESS FEE CALCULATION (Current Month):
+                        </div>
+                        <div style="font-size: 0.9rem; margin: 6px 0; padding: 4px 8px;">
+                            Base Mess Fee: ₹{{ data.base_mess_fee }} (₹150 × 30 days)
+                        </div>
+
+                        <div style="color: #17a2b8; font-weight: 500; margin: 6px 0; padding: 4px 8px;">
+                            📊 Current Month Data: {{ data.mess_absent|default:"0" }} days absent from mess
+                        </div>
+
+                        {% if data.is_rebate_eligible %}
+                            <div style="color: #ffc107; font-weight: 500; margin: 6px 0; padding: 4px 8px;">
+                                ✅ Rebate Eligible: {{ data.mess_absent }} days ≥ 4 days minimum
+                            </div>
+                            <div style="color: #28a745; font-weight: 500; margin: 6px 0; padding: 4px 8px;">
+                                💰 Rebate Calculation: {{ data.mess_absent }} × ₹150 = ₹{{ data.mess_rebate_amount }}
+                            </div>
+                            <div style="color: #28a745; font-weight: bold; margin: 6px 0; padding: 4px 8px; border: 1px solid #28a745; border-radius: 4px;">
+                                🎯 Final Mess Fee: ₹{{ data.base_mess_fee }} - ₹{{ data.mess_rebate_amount }} = ₹{{ data.final_mess_fee }}
+                            </div>
+                        {% else %}
+                            <div style="color: #dc3545; font-weight: 500; margin: 6px 0; padding: 4px 8px;">
+                                ❌ No Rebate: {{ data.mess_absent|default:"0" }} days < 4 days minimum required
+                            </div>
+                            <div style="color: rgba(0, 0, 0, 0.8); margin: 6px 0; padding: 4px 8px;">
+                                🍽️ Full Mess Fee: ₹{{ data.final_mess_fee }} (No deduction)
+                            </div>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                    <!-- ✅ FINAL TOTAL CALCULATION -->
+                    <div id="finalTotalCalculation" style="font-weight: bold; color: #fff; background: rgba(106,90,205,0.4); padding: 15px; border: 2px solid #6a5acd; border-radius: 8px; margin: 15px 0; text-align: center;">
+                        🏆 TOTAL MONTHLY FEE = Hostel Fee + Final Mess Fee<br>
+                        <span id="totalCalculationText">
+                            ₹{{ data.hostel_fee }} + ₹{{ data.final_mess_fee }} = <strong>₹{{ data.total_monthly_fee }}</strong>
+                        </span>
+                    </div>
+                    </td>
+
+
+                    <td style="text-align:center;">
+                    <div style="font-weight:600; margin-bottom:6px;">Payment Status</div>
+                    {% if data.status == 'PAID' %}
+                        <span style="display:inline-block; padding:6px 10px; border-radius:14px; background:#1f5132; color:#b6f0c2; border:1px solid #2ea043;">
+                        ✓ Paid
+                        </span>
+                    {% comment %} {% elif data.status == 'PARTIAL' %}
+                        <span style="display:inline-block; padding:6px 10px; border-radius:14px; background:#664d03; color:#ffe69c; border:1px solid #e0a800;">
+                        ⧗ Partial
+                        </span> {% endcomment %}
+                    {% else %}
+                        <span style="display:inline-block; padding:6px 10px; border-radius:14px; background:#343a40; color:#e9ecef; border:1px solid #6c757d;">
+                        ⏳ Pending
+                        </span>
+                    {% endif %}
+                    </td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 40px; color: #666;">
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">📋</div>
+                        <div>No approved students found.</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Students must be approved and assigned rooms for attendance tracking.</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+// SIMPLE & WORKING JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📊 Enhanced Design Loaded');
+    
+    // Get the date input
+    const dateInput = document.getElementById('dateInput');
+    const dateForm = document.getElementById('dateForm');
+    
+    if (dateInput && dateForm) {
+        console.log('✅ Date elements found');
+        
+        // SIMPLE: Auto-submit when date changes
+        dateInput.addEventListener('change', function() {
+            const selectedDate = this.value;
+            console.log('📅 Date changed to:', selectedDate);
+            
+            if (selectedDate) {
+                showToast('Loading attendance data...', 'info');
+                // Simple form submission
+                dateForm.submit();
+            }
+        });
+        
+        // Also listen for input event (for better browser compatibility)
+        dateInput.addEventListener('input', function() {
+            const selectedDate = this.value;
+            console.log('📅 Date input changed to:', selectedDate);
+        });
+        
+        console.log('✅ Date change listeners attached');
+    } else {
+        console.error('❌ Date elements not found!');
+    }
+});
+
+// Existing functions remain the same
+function markAttendance(studentId, attendanceType, status, date, mealType = 'lunch') {
+    if (!status) return;
+
+    const select = event.target;
+    const originalHTML = select.innerHTML;
+    select.disabled = true;
+
+    const formData = new FormData();
+    formData.append('student_id', studentId);
+    formData.append('attendance_type', attendanceType);
+    formData.append('status', status);
+    formData.append('date', date);
+    formData.append('meal_type', mealType);
+    formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+    console.log(`📅 Marking attendance for ${date}:`, {studentId, attendanceType, status});
+
+    fetch('{% url "admin:mark_attendance" %}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        select.disabled = false;
+        if (data.success) {
+            select.className = `${attendanceType === 'room' ? 'attendance-select' : 'meal-select'} ${status}`;
+            showToast(data.message, 'success');
+        } else {
+            select.innerHTML = originalHTML;
+            showToast('Error: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        select.disabled = false;
+        select.innerHTML = originalHTML;
+        console.error('Error:', error);
+        showToast('Network error. Please try again.', 'error');
+    });
+}
+
+function markMessAttendance(studentId, status, date, mealType) {
+    if (!status) return;
+
+    const select = event.target;
+    select.disabled = true;
+
+    const formData = new FormData();
+    formData.append('student_id', studentId);
+    formData.append('attendance_type', 'mess');
+    formData.append('status', status);
+    formData.append('date', date);
+    formData.append('meal_type', mealType);
+    formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+    console.log(`🍽️ Marking mess attendance for ${date}:`, {studentId, status, mealType});
+
+    fetch('{% url "admin:mark_attendance" %}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        select.disabled = false;
+        if (data.success) {
+            select.className = `meal-select ${status}`;
+            if (data.mess_status) {
+                updateMessStatusNewLogic(studentId, data.mess_status);
+            }
+            showToast(data.message, 'success');
+        } else {
+            showToast('Error: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        select.disabled = false;
+        console.error('Error:', error);
+        showToast('Network error. Please try again.', 'error');
+    });
+}
+
+// NEW: Bulk Mess Attendance Function
+function bulkMarkMessAttendance(mealType, status) {
+    const meals = mealType === 'all' ? ['breakfast', 'lunch', 'dinner'] : [mealType];
+    const message = `Are you sure you want to mark ALL students as ${status} for ${mealType === 'all' ? 'all meals' : mealType}?`;
+    
+    if (!confirm(message)) return;
+
+    showToast(`Marking all students as ${status} for ${mealType === 'all' ? 'all meals' : mealType}...`, 'success');
+    
+    const selectedDate = document.getElementById('dateInput').value;
+    const studentRows = document.querySelectorAll('[id^="student-row-"]');
+    let totalOperations = 0;
+    let completedOperations = 0;
+
+    studentRows.forEach(row => {
+        const studentId = row.id.split('-')[2];
+        
+        meals.forEach(meal => {
+            totalOperations++;
+            
+            const formData = new FormData();
+            formData.append('student_id', studentId);
+            formData.append('attendance_type', 'mess');
+            formData.append('status', status);
+            formData.append('date', selectedDate);
+            formData.append('meal_type', meal);
+            formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+            fetch('{% url "admin:mark_attendance" %}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                completedOperations++;
+                
+                if (data.success) {
+                    // Update the meal select in the UI
+                    const mealSelect = row.querySelector(`select[data-meal="${meal}"]`);
+                    if (mealSelect) {
+                        mealSelect.value = status;
+                        mealSelect.className = `meal-select ${status}`;
+                    }
+                }
+                
+                if (completedOperations === totalOperations) {
+                    const mealText = mealType === 'all' ? 'all meals' : mealType;
+                    showToast(`✅ Bulk ${status} completed for ${mealText}!`, 'success');
+                    setTimeout(() => location.reload(), 2000);
+                }
+            })
+            .catch(error => {
+                completedOperations++;
+                console.error('Error:', error);
+                if (completedOperations === totalOperations) {
+                    showToast(`Bulk operation completed with some errors`, 'error');
+                    setTimeout(() => location.reload(), 2000);
+                }
+            });
+        });
+    });
+}
+
+// NEW: Reset Room Attendance Only
+function resetRoomAttendance() {
+    if (!confirm('Are you sure you want to reset ROOM attendance to "Not Marked"?')) {
+        return;
+    }
+    
+    showToast('Resetting room attendance to "Not Marked"...', 'info');
+    
+    const selectedDate = document.getElementById('dateInput').value;
+    const studentRows = document.querySelectorAll('[id^="student-row-"]');
+    let totalOperations = studentRows.length;
+    let completedOperations = 0;
+
+    studentRows.forEach(row => {
+        const studentId = row.id.split('-')[2];
+        
+        const formData = new FormData();
+        formData.append('student_id', studentId);
+        formData.append('attendance_type', 'room');
+        formData.append('status', '');
+        formData.append('date', selectedDate);
+        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+        fetch('{% url "admin:mark_attendance" %}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            completedOperations++;
+            if (data.success) {
+                const roomSelect = row.querySelector('select[data-student]');
+                if (roomSelect) {
+                    roomSelect.value = '';
+                    roomSelect.className = 'attendance-select not-marked';
+                }
+            }
+            checkRoomResetCompletion();
+        })
+        .catch(error => {
+            completedOperations++;
+            console.error('Error:', error);
+            checkRoomResetCompletion();
+        });
+    });
+
+    function checkRoomResetCompletion() {
+        if (completedOperations === totalOperations) {
+            showToast('✅ Room attendance reset to "Not Marked"!', 'success');
+            setTimeout(() => location.reload(), 1500);
+        }
+    }
+}
+
+// NEW: Reset Mess Attendance Only
+function resetMessAttendance() {
+    if (!confirm('Are you sure you want to reset MESS attendance to "Not Marked"?')) {
+        return;
+    }
+    
+    showToast('Resetting mess attendance to "Not Marked"...', 'info');
+    
+    const selectedDate = document.getElementById('dateInput').value;
+    const studentRows = document.querySelectorAll('[id^="student-row-"]');
+    let totalOperations = 0;
+    let completedOperations = 0;
+
+    studentRows.forEach(row => {
+        const studentId = row.id.split('-')[2];
+        
+        ['breakfast', 'lunch', 'dinner'].forEach(meal => {
+            totalOperations++;
+            const formData = new FormData();
+            formData.append('student_id', studentId);
+            formData.append('attendance_type', 'mess');
+            formData.append('status', '');
+            formData.append('date', selectedDate);
+            formData.append('meal_type', meal);
+            formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+            fetch('{% url "admin:mark_attendance" %}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                completedOperations++;
+                if (data.success) {
+                    const mealSelect = row.querySelector(`select[data-meal="${meal}"]`);
+                    if (mealSelect) {
+                        mealSelect.value = '';
+                        mealSelect.className = 'meal-select not-marked';
+                    }
+                }
+                checkMessResetCompletion();
+            })
+            .catch(error => {
+                completedOperations++;
+                console.error('Error:', error);
+                checkMessResetCompletion();
+            });
+        });
+    });
+
+    function checkMessResetCompletion() {
+        if (completedOperations === totalOperations) {
+            showToast('✅ Mess attendance reset to "Not Marked"!', 'success');
+            setTimeout(() => location.reload(), 1500);
+        }
+    }
+}
+
+// Reset All Attendance Function
+function resetAllAttendance() {
+    if (!confirm('Are you sure you want to reset ALL attendance (Room & Mess) to "Not Marked"? This action cannot be undone.')) {
+        return;
+    }
+    
+    showToast('Resetting all attendance to "Not Marked"...', 'info');
+    
+    const selectedDate = document.getElementById('dateInput').value;
+    const studentRows = document.querySelectorAll('[id^="student-row-"]');
+    let totalOperations = 0;
+    let completedOperations = 0;
+
+    studentRows.forEach(row => {
+        const studentId = row.id.split('-')[2];
+        
+        // Reset room attendance
+        totalOperations++;
+        const roomFormData = new FormData();
+        roomFormData.append('student_id', studentId);
+        roomFormData.append('attendance_type', 'room');
+        roomFormData.append('status', '');
+        roomFormData.append('date', selectedDate);
+        roomFormData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+        fetch('{% url "admin:mark_attendance" %}', {
+            method: 'POST',
+            body: roomFormData
+        })
+        .then(response => response.json())
+        .then(data => {
+            completedOperations++;
+            if (data.success) {
+                const roomSelect = row.querySelector('select[data-student]');
+                if (roomSelect) {
+                    roomSelect.value = '';
+                    roomSelect.className = 'attendance-select not-marked';
+                }
+            }
+            checkResetCompletion();
+        })
+        .catch(error => {
+            completedOperations++;
+            console.error('Error:', error);
+            checkResetCompletion();
+        });
+
+        // Reset mess attendance for all meals
+        ['breakfast', 'lunch', 'dinner'].forEach(meal => {
+            totalOperations++;
+            const messFormData = new FormData();
+            messFormData.append('student_id', studentId);
+            messFormData.append('attendance_type', 'mess');
+            messFormData.append('status', '');
+            messFormData.append('date', selectedDate);
+            messFormData.append('meal_type', meal);
+            messFormData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+            fetch('{% url "admin:mark_attendance" %}', {
+                method: 'POST',
+                body: messFormData
+            })
+            .then(response => response.json())
+            .then(data => {
+                completedOperations++;
+                if (data.success) {
+                    const mealSelect = row.querySelector(`select[data-meal="${meal}"]`);
+                    if (mealSelect) {
+                        mealSelect.value = '';
+                        mealSelect.className = 'meal-select not-marked';
+                    }
+                }
+                checkResetCompletion();
+            })
+            .catch(error => {
+                completedOperations++;
+                console.error('Error:', error);
+                checkResetCompletion();
+            });
+        });
+    });
+
+    function checkResetCompletion() {
+        if (completedOperations === totalOperations) {
+            showToast('✅ All attendance reset to "Not Marked"!', 'success');
+            setTimeout(() => location.reload(), 2000);
+        }
+    }
+}
+
+function updateMessStatusNewLogic(studentId, status) {
+    const messStatusElement = document.getElementById(`mess-status-${studentId}`);
+    if (!messStatusElement) return;
+
+    let statusHTML = '';
+    let statusClass = '';
+    let description = '';
+
+    switch(status) {
+        case 'present':
+            statusHTML = '✅ Present';
+            statusClass = 'status-present';
+            description = 'Any meal attended';
+            break;
+        case 'absent':
+            statusHTML = '❌ Absent';
+            statusClass = 'status-absent';
+            description = 'All meals absent';
+            break;
+        default:
+            statusHTML = '⏳ Not Marked';
+            statusClass = 'status-not-marked';
+            description = 'No meals marked';
+    }
+
+    messStatusElement.innerHTML = `
+        <span class="status-badge ${statusClass}">${statusHTML}</span>
+        <div class="marked-by" style="color: ${status === 'present' ? '#28a745' : status === 'absent' ? '#dc3545' : '#6c757d'};">${description}</div>
+    `;
+}
+
+function showToast(message, type) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = `toast ${type}`;
+    toast.style.display = 'block';
+
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 3000);
+}
+
+function exportAttendance() {
+    const date = document.querySelector('[name="date"]').value;
+    showToast('Export functionality will be implemented soon!', 'info');
+}
+
+function toggleFullWidth() {
+    const container = document.querySelector('.attendance-container');
+    const button = document.getElementById('widthToggle');
+    
+    if (container.style.maxWidth === '1200px') {
+        container.style.maxWidth = '100%';
+        button.textContent = '📐 Toggle Compact View';
+        showToast('Full Width Mode Enabled', 'success');
+    } else {
+        container.style.maxWidth = '1200px';
+        button.textContent = '📐 Toggle Full Width';
+        showToast('Compact Mode Enabled', 'success');
+    }
+}
+</script>
+{% endblock %}

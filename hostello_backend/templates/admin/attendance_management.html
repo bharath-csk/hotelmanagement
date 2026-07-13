@@ -1,0 +1,1520 @@
+<!-- templates/admin/attendance_management.html - COMPLETE ENHANCED VERSION -->
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    /* All your existing CSS remains the same */
+    .change-list {
+        margin: 0;
+        padding: 0;
+    }
+
+    #changelist {
+        margin: 0;
+        padding: 0;
+    }
+
+    .attendance-container {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        min-height: 100vh;
+    }
+
+    .main {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #content {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    #content-main {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .results {
+        width: 100% !important;
+        overflow-x: visible !important;
+    }
+
+    .stats-header {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+        margin-bottom: 25px;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 8px;
+        color: white;
+        width: 100%;
+    }
+
+    .stat-box {
+        text-align: center;
+        padding: 12px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 6px;
+        min-width: 120px;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+        opacity: 0.9;
+        line-height: 1.2;
+    }
+
+    .date-debug {
+        background: #e7f3ff;
+        color: #0066cc;
+        padding: 10px 15px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        border-left: 4px solid #0066cc;
+    }
+
+    .date-selector {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    /* FIXED: Better date input styling */
+    .date-input {
+        padding: 12px 15px !important;
+        border: 3px solid #007bff !important;
+        border-radius: 6px !important;
+        font-size: 16px !important;
+        min-width: 180px !important;
+        background: white !important;
+        color: #333 !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+    }
+
+    .date-input:focus {
+        outline: none !important;
+        border-color: #0056b3 !important;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25) !important;
+        background: #fff !important;
+    }
+
+    .date-input:hover {
+        border-color: #0056b3 !important;
+        background: #f8f9ff !important;
+    }
+
+    /* All other CSS remains the same... */
+    .attendance-table {
+        width: 100% !important;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        table-layout: auto;
+    }
+
+    .attendance-table th {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 8px;
+        text-align: left;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        font-size: 0.9rem;
+    }
+
+    .attendance-table td {
+        padding: 10px 8px;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+        font-size: 0.9rem;
+    }
+
+    .attendance-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .attendance-table tr:hover {
+        background-color: #f0f8ff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .student-info {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 280px;
+        max-width: 350px;
+    }
+
+    .student-name {
+        font-weight: 600;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .student-details {
+        font-size: 0.8rem;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .student-stats {
+        font-size: 0.75rem;
+        color: #888;
+        margin-top: 4px;
+        padding: 3px 6px;
+        background: #f0f0f0;
+        border-radius: 3px;
+        display: inline-block;
+    }
+
+    .attendance-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 110px;
+        max-width: 130px;
+    }
+
+    .attendance-select {
+        padding: 6px 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        background: white;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .attendance-select:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    }
+
+    .attendance-select.present {
+        border-color: #28a745;
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .attendance-select.absent {
+        border-color: #dc3545;
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .attendance-select.not-marked {
+        border-color: #ffc107;
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .mess-attendance {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 200px;
+        max-width: 220px;
+    }
+
+    .meal-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 1px 0;
+    }
+
+    .meal-label {
+        font-size: 0.75rem;
+        min-width: 65px;
+        font-weight: 500;
+    }
+
+    .meal-select {
+        padding: 3px 6px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        min-width: 60px;
+        max-width: 70px;
+    }
+
+    .meal-select.present {
+        background: #d4edda;
+        color: #155724;
+        border-color: #28a745;
+    }
+
+    .meal-select.absent {
+        background: #f8d7da;
+        color: #721c24;
+        border-color: #dc3545;
+    }
+
+    .status-indicator {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        align-items: center;
+        min-width: 90px;
+        max-width: 110px;
+    }
+
+    .status-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-align: center;
+        min-width: 70px;
+        line-height: 1.2;
+    }
+
+    .status-present {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .status-absent {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .status-not-marked {
+        background: #e9ecef;
+        color: #6c757d;
+    }
+
+    .marked-by {
+        font-size: 0.65rem;
+        color: #999;
+        text-align: center;
+        line-height: 1.1;
+    }
+
+    .bulk-actions {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        width: 100%;
+        border: 2px solid #e9ecef;
+    }
+
+    .bulk-actions h3 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    /* Enhanced Section Styling */
+    .action-section {
+        margin-bottom: 20px;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .date-nav-section {
+        border-left: 4px solid #17a2b8;
+    }
+
+    .room-section {
+        border-left: 4px solid #28a745;
+    }
+
+    .mess-section {
+        border-left: 4px solid #fd7e14;
+    }
+
+    .utility-section {
+        border-left: 4px solid #6c757d;
+    }
+
+    .action-section h4 {
+        margin: 0 0 15px 0;
+        color: #333;
+        font-size: 1.1rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .action-section h5 {
+        margin: 0 0 10px 0;
+        color: #666;
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .meal-group {
+        margin-bottom: 15px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+    }
+
+    .meal-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .individual-meals {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .meal-buttons-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 12px;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #dee2e6;
+    }
+
+    .meal-title {
+        font-weight: 600;
+        min-width: 100px;
+        color: #495057;
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        font-size: 13px;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+
+    .btn-sm {
+        padding: 5px 12px;
+        font-size: 0.8rem;
+        border-radius: 4px;
+    }
+
+    .btn-success {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+    }
+
+    .btn-primary {
+        background: #007bff;
+        color: white;
+    }
+
+    .btn-info {
+        background: #17a2b8;
+        color: white;
+    }
+
+    .btn-warning {
+        background: #ffc107;
+        color: #212529;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: #545b62;
+    }
+
+    .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 6px;
+        color: white;
+        font-weight: 500;
+        z-index: 1000;
+        display: none;
+    }
+
+    .toast.success {
+        background: #28a745;
+    }
+
+    .toast.error {
+        background: #dc3545;
+    }
+
+    .toast.info {
+        background: #17a2b8;
+    }
+
+    .instructions {
+        margin-top: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+        width: 100%;
+    }
+
+    .instructions h4 {
+        color: #667eea;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    .instructions ul {
+        margin: 10px 0;
+        padding-left: 20px;
+    }
+
+    .instructions li {
+        margin: 4px 0;
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .logic-info {
+        background: #d1ecf1;
+        color: #0c5460;
+        padding: 12px 20px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        border-left: 4px solid #bee5eb;
+        width: 100%;
+        font-size: 0.95rem;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 1400px) {
+        .student-info {
+            min-width: 240px;
+        }
+        
+        .mess-attendance {
+            min-width: 180px;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .attendance-table {
+            font-size: 0.85rem;
+        }
+
+        .student-info {
+            min-width: 200px;
+        }
+
+        .attendance-controls {
+            min-width: 100px;
+        }
+
+        .mess-attendance {
+            min-width: 160px;
+        }
+
+        .stat-number {
+            font-size: 1.6rem;
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .stats-header {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .attendance-container {
+            padding: 15px;
+        }
+
+        .stats-header {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .date-selector {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .attendance-table {
+            font-size: 0.8rem;
+        }
+
+        .student-info {
+            min-width: 180px;
+        }
+
+        .mess-attendance {
+            min-width: 140px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .individual-meals {
+            gap: 8px;
+        }
+        
+        .meal-buttons-row {
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .meal-title {
+            min-width: auto;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .action-section {
+            padding: 15px;
+        }
+        
+        .meal-group {
+            padding: 10px;
+        }
+    }
+
+    body.change-list {
+        margin: 0;
+        padding: 0;
+    }
+
+    .colM {
+        margin-left: 0 !important;
+    }
+
+    .colSM {
+        margin-left: 0 !important;
+    }
+
+    #header, #breadcrumbs, #content, #footer {
+        margin: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    #navigation-sidebar {
+        width: 200px;
+    }
+
+    .main > .content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        margin: 0;
+        padding: 0;
+    }
+
+    .table-container::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="attendance-container">
+    <h1 style="color: #333; margin-bottom: 20px; font-size: 1.5rem;">📊 Student Attendance Management - Enhanced Design</h1>
+
+    <!-- Date Debug Information -->
+    {% if date_info %}
+    <div class="date-debug">
+        <strong>📅 Today:</strong>
+        {{ selected_date|date:'l, d F Y' }} 
+    </div>
+    {% endif %}
+
+    {% comment %} <!-- New Logic Information -->
+    <div class="logic-info">
+        <strong>🍽️ NEW Mess Attendance Logic:</strong> 
+        Present if ANY meal attended | Absent only if ALL meals absent | More student-friendly approach!
+    </div> {% endcomment %}
+
+    <!-- Enhanced Statistics Header -->
+    <div class="stats-header">
+        <div class="stat-box">
+            <div class="stat-number">{{ total_students }}</div>
+            <div class="stat-label">Total Students</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">{{ room_present }}</div>
+            <div class="stat-label">🏠 Room Present</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">{{ room_absent }}</div>
+            <div class="stat-label">🏠 Room Absent</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">{{ room_not_marked }}</div>
+            <div class="stat-label">🏠 Not Marked</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">{{ mess_present }}</div>
+            <div class="stat-label">🍽️ Mess Present</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">{{ mess_absent }}</div>
+            <div class="stat-label">🍽️ Mess Absent</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">{{ mess_not_marked }}</div>
+            <div class="stat-label">🍽️ Not Marked</div>
+        </div>
+    </div>
+
+    <!-- FIXED: Simple Date Selector that ACTUALLY WORKS -->
+    <div class="date-selector">
+        <form method="get" id="dateForm" action="" style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap; width: 100%;">
+            <label for="date" style="font-weight: 600; color: #333; font-size: 18px;">📅 Select Date:</label>
+            
+            <!-- FIXED: Working date input -->
+            <input type="date" 
+                   id="dateInput" 
+                   name="date" 
+                   value="{{ selected_date|date:'Y-m-d' }}" 
+                   class="date-input" 
+                   min="2020-01-01"
+                   max="2030-12-31"
+                   style="cursor: pointer !important;">
+            
+            <span style="color: #666; font-size: 16px; font-weight: 500;">
+                {{ selected_date|date:'l, d F Y' }}
+            </span>
+            
+            <button type="submit" class="btn btn-primary" style="font-size: 14px;">🔄 Update View</button>
+            
+            <div style="margin-left: auto;">
+                {% if date_info.is_today %}
+                    <span style="color: #28a745; font-weight: 600;">📅 Today's Attendance</span>
+                {% elif date_info.is_past %}
+                    <span style="color: #6c757d; font-weight: 600;">⏪ Historical Data</span>
+                {% elif date_info.is_future %}
+                    <span style="color: #007bff; font-weight: 600;">⏩ Future Planning</span>
+                {% else %}
+                    <span style="color: #28a745; font-weight: 600;">✅ Enhanced Design Active</span>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- Enhanced Bulk Actions with Better Design -->
+    <div class="bulk-actions">
+        <h3>⚡ Quick Actions </h3>
+        
+        <!-- Date Navigation Section -->
+        {% comment %} <div class="action-section date-nav-section">
+            <h4>📅 Date Navigation</h4>
+            <div class="action-buttons">
+                <a href="?date={{ selected_date|date:'Y-m-d'|add:'-1 day' }}" class="btn btn-info">⏪ Yesterday</a>
+                <a href="?date={% now 'Y-m-d' %}" class="btn btn-primary">📅 Today</a>
+                <a href="?date={{ selected_date|date:'Y-m-d'|add:'1 day' }}" class="btn btn-info">Tomorrow ⏩</a>
+            </div>
+        </div> {% endcomment %}
+
+        <!-- Room Attendance Section -->
+        <div class="action-section room-section">
+            <h4>🏠 Room Attendance Bulk Actions</h4>
+            <div class="action-buttons">
+                <form method="post" action="{% url 'admin:bulk_attendance' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="date" value="{{ selected_date|date:'Y-m-d' }}">
+                    <input type="hidden" name="attendance_type" value="room">
+                    <button type="submit" name="action" value="mark_all_present" class="btn btn-success">
+                        ✅ Mark All Present (Room)
+                    </button>
+                    <button type="submit" name="action" value="mark_all_absent" class="btn btn-danger" 
+                            onclick="return confirm('Are you sure you want to mark ALL students as absent for {{ selected_date|date:'d/m/Y' }}? This will send notifications to all guardians.')">
+                        ❌ Mark All Absent (Room)
+                    </button>
+                </form>
+                <button type="button" class="btn btn-warning" onclick="resetRoomAttendance()">
+                    🔄 Reset Room (Not Marked)
+                </button>
+            </div>
+        </div>
+
+        <!-- Mess Attendance Section -->
+        <div class="action-section mess-section">
+            <h4>🍽️ Mess Attendance Bulk Actions</h4>
+            
+            <!-- All Meals Buttons -->
+            <div class="meal-group">
+                <h5>All Meals:</h5>
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-success" onclick="bulkMarkMessAttendance('all', 'present')">
+                        ✅ Mark All Meals Present
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="bulkMarkMessAttendance('all', 'absent')">
+                        ❌ Mark All Meals Absent
+                    </button>
+                    <button type="button" class="btn btn-warning" onclick="resetMessAttendance()">
+                        🔄 Reset Mess (Not Marked)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Individual Meal Buttons -->
+            <div class="meal-group">
+                <h5>Individual Meals:</h5>
+                <div class="individual-meals">
+                    <!-- Breakfast -->
+                    <div class="meal-buttons-row">
+                        <span class="meal-title">🌅 Breakfast:</span>
+                        <button type="button" class="btn btn-success btn-sm" onclick="bulkMarkMessAttendance('breakfast', 'present')">
+                            ✅ Present
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="bulkMarkMessAttendance('breakfast', 'absent')">
+                            ❌ Absent
+                        </button>
+                    </div>
+
+                    <!-- Lunch -->
+                    <div class="meal-buttons-row">
+                        <span class="meal-title">🌞 Lunch:</span>
+                        <button type="button" class="btn btn-success btn-sm" onclick="bulkMarkMessAttendance('lunch', 'present')">
+                            ✅ Present
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="bulkMarkMessAttendance('lunch', 'absent')">
+                            ❌ Absent
+                        </button>
+                    </div>
+
+                    <!-- Dinner -->
+                    <div class="meal-buttons-row">
+                        <span class="meal-title">🌙 Dinner:</span>
+                        <button type="button" class="btn btn-success btn-sm" onclick="bulkMarkMessAttendance('dinner', 'present')">
+                            ✅ Present
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="bulkMarkMessAttendance('dinner', 'absent')">
+                            ❌ Absent
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Utility Section -->
+        <div class="action-section utility-section">
+            <h4>🔧 Utilities</h4>
+            <div class="action-buttons">
+                {% comment %} <button class="btn btn-info" onclick="exportAttendance()">
+                    📊 Export Report
+                </button> {% endcomment %}
+                <button class="btn btn-primary" onclick="toggleFullWidth()" id="widthToggle">
+                    📐 Toggle Compact View
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="resetAllAttendance()">
+                    🔄 Reset Everything (Not Marked)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rest of the table content remains the same... -->
+    <div class="table-container">
+        <table class="attendance-table">
+            <thead>
+                <tr>
+                    <th style="min-width: 280px;">👤 Student Details</th>
+                    <th style="min-width: 110px;">🏠 Room Attendance</th>
+                    <th style="min-width: 200px;">🍽️ Mess Attendance</th>
+                    <th style="min-width: 90px;">📊 Room Status</th>
+                    <th style="min-width: 90px;">📊 Mess Status</th>
+                    <th style="min-width: 70px;">📈 Stats</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in student_data %}
+                <tr id="student-row-{{ data.student.id }}">
+                    <td>
+                        <div class="student-info">
+                            <div class="student-name">{{ data.student.full_name }}</div>
+                            <div class="student-details">
+                                <span>📋 {{ data.student.admission_number }}</span>
+                                <span>🏠 Room {{ data.student.room_number|default:"Not Assigned" }}</span>
+                                <span>🎓 {{ data.student.program }}</span>
+                            </div>
+                            <div class="student-details">
+                                <span>📧 {{ data.student.email }}</span>
+                                <span>📱 {{ data.student.mobile }}</span>
+                                <span>🏙️ {{ data.student.city }}</span>
+                            </div>
+                            <div class="student-details">
+                                <span>📚 {{ data.student.discipline }}</span>
+                                <span>👨‍👩‍👧‍👦 {{ data.student.guardian_name }}</span>
+                            </div>
+                            <div style="margin-bottom: 3px; padding: 2px 4px; background: #e8f5e8; border-radius: 3px; font-size: 0.75rem;">
+                                <strong>🏠 Room:</strong> Present: {{ data.stats.room_present_count }} | Absent: {{ data.stats.room_absent_count }} | 
+                                Rate: {{ data.stats.room_attendance_percentage }}%
+                            </div>
+                                <!-- Mess Attendance Stats -->
+                            <div style="padding: 2px 4px; background: #fff3e0; border-radius: 3px; font-size: 0.75rem;">
+                                <strong>🍽️ Mess:</strong> Present: {{ data.mess_present_days }} | Absent: {{ data.mess_absent_days }} | 
+                                Rate: {{ data.mess_attendance_rate }}%
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="attendance-controls">
+                            <select class="attendance-select {% if data.room_attendance %}{{ data.room_attendance.status }}{% else %}not-marked{% endif %}"
+                                    onchange="markAttendance({{ data.student.id }}, 'room', this.value, '{{ selected_date|date:'Y-m-d' }}')"
+                                    data-student="{{ data.student.id }}">
+                                <option value="" {% if not data.room_attendance %}selected{% endif %}>Not Marked</option>
+                                <option value="present" {% if data.room_attendance.status == 'present' %}selected{% endif %}>✅ Present</option>
+                                <option value="absent" {% if data.room_attendance.status == 'absent' %}selected{% endif %}>❌ Absent</option>
+                            </select>
+                            {% if data.room_attendance %}
+                                <div class="marked-by">
+                                    By: {{ data.room_attendance.marked_by.username }}<br>
+                                    {{ data.room_attendance.marked_at|date:'H:i' }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="mess-attendance">
+                            <div class="meal-row">
+                                <span class="meal-label">🌅 Breakfast:</span>
+                                <select class="meal-select {% if data.mess_breakfast %}{{ data.mess_breakfast.status }}{% else %}not-marked{% endif %}"
+                                        onchange="markMessAttendance({{ data.student.id }}, this.value, '{{ selected_date|date:'Y-m-d' }}', 'breakfast')"
+                                        data-student="{{ data.student.id }}" data-meal="breakfast">
+                                    <option value="" {% if not data.mess_breakfast %}selected{% endif %}>-</option>
+                                    <option value="present" {% if data.mess_breakfast.status == 'present' %}selected{% endif %}>✅</option>
+                                    <option value="absent" {% if data.mess_breakfast.status == 'absent' %}selected{% endif %}>❌</option>
+                                </select>
+                            </div>
+
+                            <div class="meal-row">
+                                <span class="meal-label">🌞 Lunch:</span>
+                                <select class="meal-select {% if data.mess_lunch %}{{ data.mess_lunch.status }}{% else %}not-marked{% endif %}"
+                                        onchange="markMessAttendance({{ data.student.id }}, this.value, '{{ selected_date|date:'Y-m-d' }}', 'lunch')"
+                                        data-student="{{ data.student.id }}" data-meal="lunch">
+                                    <option value="" {% if not data.mess_lunch %}selected{% endif %}>-</option>
+                                    <option value="present" {% if data.mess_lunch.status == 'present' %}selected{% endif %}>✅</option>
+                                    <option value="absent" {% if data.mess_lunch.status == 'absent' %}selected{% endif %}>❌</option>
+                                </select>
+                            </div>
+
+                            <div class="meal-row">
+                                <span class="meal-label">🌙 Dinner:</span>
+                                <select class="meal-select {% if data.mess_dinner %}{{ data.mess_dinner.status }}{% else %}not-marked{% endif %}"
+                                        onchange="markMessAttendance({{ data.student.id }}, this.value, '{{ selected_date|date:'Y-m-d' }}', 'dinner')"
+                                        data-student="{{ data.student.id }}" data-meal="dinner">
+                                    <option value="" {% if not data.mess_dinner %}selected{% endif %}>-</option>
+                                    <option value="present" {% if data.mess_dinner.status == 'present' %}selected{% endif %}>✅</option>
+                                    <option value="absent" {% if data.mess_dinner.status == 'absent' %}selected{% endif %}>❌</option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="status-indicator">
+                            {% if data.room_attendance %}
+                                <span class="status-badge status-{{ data.room_attendance.status }}">
+                                    {% if data.room_attendance.status == 'present' %}✅ Present{% else %}❌ Absent{% endif %}
+                                </span>
+                            {% else %}
+                                <span class="status-badge status-not-marked">⏳ Not Marked</span>
+                            {% endif %}
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="status-indicator" id="mess-status-{{ data.student.id }}">
+                            {% if data.mess_status == 'present' %}
+                                <span class="status-badge status-present">✅ Present</span>
+                                <div class="marked-by" style="color: #28a745;">Any meal attended</div>
+                            {% elif data.mess_status == 'absent' %}
+                                <span class="status-badge status-absent">❌ Absent</span>
+                                <div class="marked-by" style="color: #dc3545;">All meals absent</div>
+                            {% else %}
+                                <span class="status-badge status-not-marked">⏳ Not Marked</span>
+                                <div class="marked-by" style="color: #6c757d;">No meals marked</div>
+                            {% endif %}
+                        </div>
+                    </td>
+
+                    <td style="text-align: center; font-size: 0.8rem; color: #666;">
+                        <div>Room: {{ data.stats.room_attendance_percentage }}%</div>
+                        <div style="font-size: 0.7rem;">attendance</div>
+                        <br>
+                        <div>Mess: {{ data.stats.mess_attendance_percentage }}%</div>
+                        <div style="font-size: 0.7rem;">attendance</div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 40px; color: #666;">
+                        <div style="font-size: 1.2rem; margin-bottom: 10px;">📋</div>
+                        <div>No approved students found.</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Students must be approved and assigned rooms for attendance tracking.</div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Instructions -->
+    <div class="instructions">
+        <h4>📝 HOSTELLO — Quick Guide</h4>
+        <ul>
+            {% comment %} <li><strong>✅ Pick a date:</strong> Use the calendar to load that day’s attendance instantly; use “Update View” if auto-refresh is blocked by the browser.</li> {% endcomment %}
+            {% comment %} <li><strong>⏱️ Fast navigate:</strong> Tap Yesterday / Today / Tomorrow to jump between days without losing context.</li> {% endcomment %}
+            <li><strong>🏠 Room marking:</strong> Choose Present/Absent or Reset Room; updates save immediately for the selected date with user and time stamp.</li>
+            <li><strong>🍽️ Mess marking:</strong> Mark Breakfast/Lunch/Dinner individually or use bulk buttons; <em>Mess Status</em> is Present if any meal is present, Absent only if all marked meals are absent.</li>
+            <li><strong>📊 Live stats:</strong> Room and Mess summaries, rates, and not-marked counts update in real time for the chosen date.</li>
+            <li><strong>💾 Auto-Save:</strong> All attendance changes are saved immediately to the selected date.</li>
+            <li><strong>🔔 Smart alerts:</strong> Optional guardian notifications trigger on room absences and key mess absences based on settings.</li>
+            <li><strong>🔄 Bulk actions:</strong> Mark all students Room Present/Absent or set meal-wide Present/Absent in one click; use Reset to clear marks for that day.</li>
+            <li><strong>🧭 Compact view:</strong> Toggle full-width/compact layout for faster scanning on smaller screens.</li>
+            <li><strong>🔐 Audit trail:</strong> Every change records who marked it and when, ensuring accountability.</li>
+            {% comment %} <li><strong>⬇️ Export:</strong> Use Export Report to view the full-day summary and download CSV for sharing or analysis.</li> {% endcomment %}
+        </ul>
+    </div>
+
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+
+<script>
+// SIMPLE & WORKING JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('📊 Enhanced Design Loaded');
+    
+    // Get the date input
+    const dateInput = document.getElementById('dateInput');
+    const dateForm = document.getElementById('dateForm');
+    
+    if (dateInput && dateForm) {
+        console.log('✅ Date elements found');
+        
+        // SIMPLE: Auto-submit when date changes
+        dateInput.addEventListener('change', function() {
+            const selectedDate = this.value;
+            console.log('📅 Date changed to:', selectedDate);
+            
+            if (selectedDate) {
+                showToast('Loading attendance data...', 'info');
+                // Simple form submission
+                dateForm.submit();
+            }
+        });
+        
+        // Also listen for input event (for better browser compatibility)
+        dateInput.addEventListener('input', function() {
+            const selectedDate = this.value;
+            console.log('📅 Date input changed to:', selectedDate);
+        });
+        
+        console.log('✅ Date change listeners attached');
+    } else {
+        console.error('❌ Date elements not found!');
+    }
+});
+
+// Existing functions remain the same
+function markAttendance(studentId, attendanceType, status, date, mealType = 'lunch') {
+    if (!status) return;
+
+    const select = event.target;
+    const originalHTML = select.innerHTML;
+    select.disabled = true;
+
+    const formData = new FormData();
+    formData.append('student_id', studentId);
+    formData.append('attendance_type', attendanceType);
+    formData.append('status', status);
+    formData.append('date', date);
+    formData.append('meal_type', mealType);
+    formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+    console.log(`📅 Marking attendance for ${date}:`, {studentId, attendanceType, status});
+
+    fetch('{% url "admin:mark_attendance" %}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        select.disabled = false;
+        if (data.success) {
+            select.className = `${attendanceType === 'room' ? 'attendance-select' : 'meal-select'} ${status}`;
+            showToast(data.message, 'success');
+        } else {
+            select.innerHTML = originalHTML;
+            showToast('Error: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        select.disabled = false;
+        select.innerHTML = originalHTML;
+        console.error('Error:', error);
+        showToast('Network error. Please try again.', 'error');
+    });
+}
+
+function markMessAttendance(studentId, status, date, mealType) {
+    if (!status) return;
+
+    const select = event.target;
+    select.disabled = true;
+
+    const formData = new FormData();
+    formData.append('student_id', studentId);
+    formData.append('attendance_type', 'mess');
+    formData.append('status', status);
+    formData.append('date', date);
+    formData.append('meal_type', mealType);
+    formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+    console.log(`🍽️ Marking mess attendance for ${date}:`, {studentId, status, mealType});
+
+    fetch('{% url "admin:mark_attendance" %}', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        select.disabled = false;
+        if (data.success) {
+            select.className = `meal-select ${status}`;
+            if (data.mess_status) {
+                updateMessStatusNewLogic(studentId, data.mess_status);
+            }
+            showToast(data.message, 'success');
+        } else {
+            showToast('Error: ' + data.message, 'error');
+        }
+    })
+    .catch(error => {
+        select.disabled = false;
+        console.error('Error:', error);
+        showToast('Network error. Please try again.', 'error');
+    });
+}
+
+// NEW: Bulk Mess Attendance Function
+function bulkMarkMessAttendance(mealType, status) {
+    const meals = mealType === 'all' ? ['breakfast', 'lunch', 'dinner'] : [mealType];
+    const message = `Are you sure you want to mark ALL students as ${status} for ${mealType === 'all' ? 'all meals' : mealType}?`;
+    
+    if (!confirm(message)) return;
+
+    showToast(`Marking all students as ${status} for ${mealType === 'all' ? 'all meals' : mealType}...`, 'success');
+    
+    const selectedDate = document.getElementById('dateInput').value;
+    const studentRows = document.querySelectorAll('[id^="student-row-"]');
+    let totalOperations = 0;
+    let completedOperations = 0;
+
+    studentRows.forEach(row => {
+        const studentId = row.id.split('-')[2];
+        
+        meals.forEach(meal => {
+            totalOperations++;
+            
+            const formData = new FormData();
+            formData.append('student_id', studentId);
+            formData.append('attendance_type', 'mess');
+            formData.append('status', status);
+            formData.append('date', selectedDate);
+            formData.append('meal_type', meal);
+            formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+            fetch('{% url "admin:mark_attendance" %}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                completedOperations++;
+                
+                if (data.success) {
+                    // Update the meal select in the UI
+                    const mealSelect = row.querySelector(`select[data-meal="${meal}"]`);
+                    if (mealSelect) {
+                        mealSelect.value = status;
+                        mealSelect.className = `meal-select ${status}`;
+                    }
+                }
+                
+                if (completedOperations === totalOperations) {
+                    const mealText = mealType === 'all' ? 'all meals' : mealType;
+                    showToast(`✅ Bulk ${status} completed for ${mealText}!`, 'success');
+                    setTimeout(() => location.reload(), 2000);
+                }
+            })
+            .catch(error => {
+                completedOperations++;
+                console.error('Error:', error);
+                if (completedOperations === totalOperations) {
+                    showToast(`Bulk operation completed with some errors`, 'error');
+                    setTimeout(() => location.reload(), 2000);
+                }
+            });
+        });
+    });
+}
+
+// NEW: Reset Room Attendance Only
+function resetRoomAttendance() {
+    if (!confirm('Are you sure you want to reset ROOM attendance to "Not Marked"?')) {
+        return;
+    }
+    
+    showToast('Resetting room attendance to "Not Marked"...', 'info');
+    
+    const selectedDate = document.getElementById('dateInput').value;
+    const studentRows = document.querySelectorAll('[id^="student-row-"]');
+    let totalOperations = studentRows.length;
+    let completedOperations = 0;
+
+    studentRows.forEach(row => {
+        const studentId = row.id.split('-')[2];
+        
+        const formData = new FormData();
+        formData.append('student_id', studentId);
+        formData.append('attendance_type', 'room');
+        formData.append('status', '');
+        formData.append('date', selectedDate);
+        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+        fetch('{% url "admin:mark_attendance" %}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            completedOperations++;
+            if (data.success) {
+                const roomSelect = row.querySelector('select[data-student]');
+                if (roomSelect) {
+                    roomSelect.value = '';
+                    roomSelect.className = 'attendance-select not-marked';
+                }
+            }
+            checkRoomResetCompletion();
+        })
+        .catch(error => {
+            completedOperations++;
+            console.error('Error:', error);
+            checkRoomResetCompletion();
+        });
+    });
+
+    function checkRoomResetCompletion() {
+        if (completedOperations === totalOperations) {
+            showToast('✅ Room attendance reset to "Not Marked"!', 'success');
+            setTimeout(() => location.reload(), 1500);
+        }
+    }
+}
+
+// NEW: Reset Mess Attendance Only
+function resetMessAttendance() {
+    if (!confirm('Are you sure you want to reset MESS attendance to "Not Marked"?')) {
+        return;
+    }
+    
+    showToast('Resetting mess attendance to "Not Marked"...', 'info');
+    
+    const selectedDate = document.getElementById('dateInput').value;
+    const studentRows = document.querySelectorAll('[id^="student-row-"]');
+    let totalOperations = 0;
+    let completedOperations = 0;
+
+    studentRows.forEach(row => {
+        const studentId = row.id.split('-')[2];
+        
+        ['breakfast', 'lunch', 'dinner'].forEach(meal => {
+            totalOperations++;
+            const formData = new FormData();
+            formData.append('student_id', studentId);
+            formData.append('attendance_type', 'mess');
+            formData.append('status', '');
+            formData.append('date', selectedDate);
+            formData.append('meal_type', meal);
+            formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+            fetch('{% url "admin:mark_attendance" %}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                completedOperations++;
+                if (data.success) {
+                    const mealSelect = row.querySelector(`select[data-meal="${meal}"]`);
+                    if (mealSelect) {
+                        mealSelect.value = '';
+                        mealSelect.className = 'meal-select not-marked';
+                    }
+                }
+                checkMessResetCompletion();
+            })
+            .catch(error => {
+                completedOperations++;
+                console.error('Error:', error);
+                checkMessResetCompletion();
+            });
+        });
+    });
+
+    function checkMessResetCompletion() {
+        if (completedOperations === totalOperations) {
+            showToast('✅ Mess attendance reset to "Not Marked"!', 'success');
+            setTimeout(() => location.reload(), 1500);
+        }
+    }
+}
+
+// Reset All Attendance Function
+function resetAllAttendance() {
+    if (!confirm('Are you sure you want to reset ALL attendance (Room & Mess) to "Not Marked"? This action cannot be undone.')) {
+        return;
+    }
+    
+    showToast('Resetting all attendance to "Not Marked"...', 'info');
+    
+    const selectedDate = document.getElementById('dateInput').value;
+    const studentRows = document.querySelectorAll('[id^="student-row-"]');
+    let totalOperations = 0;
+    let completedOperations = 0;
+
+    studentRows.forEach(row => {
+        const studentId = row.id.split('-')[2];
+        
+        // Reset room attendance
+        totalOperations++;
+        const roomFormData = new FormData();
+        roomFormData.append('student_id', studentId);
+        roomFormData.append('attendance_type', 'room');
+        roomFormData.append('status', '');
+        roomFormData.append('date', selectedDate);
+        roomFormData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+        fetch('{% url "admin:mark_attendance" %}', {
+            method: 'POST',
+            body: roomFormData
+        })
+        .then(response => response.json())
+        .then(data => {
+            completedOperations++;
+            if (data.success) {
+                const roomSelect = row.querySelector('select[data-student]');
+                if (roomSelect) {
+                    roomSelect.value = '';
+                    roomSelect.className = 'attendance-select not-marked';
+                }
+            }
+            checkResetCompletion();
+        })
+        .catch(error => {
+            completedOperations++;
+            console.error('Error:', error);
+            checkResetCompletion();
+        });
+
+        // Reset mess attendance for all meals
+        ['breakfast', 'lunch', 'dinner'].forEach(meal => {
+            totalOperations++;
+            const messFormData = new FormData();
+            messFormData.append('student_id', studentId);
+            messFormData.append('attendance_type', 'mess');
+            messFormData.append('status', '');
+            messFormData.append('date', selectedDate);
+            messFormData.append('meal_type', meal);
+            messFormData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+            fetch('{% url "admin:mark_attendance" %}', {
+                method: 'POST',
+                body: messFormData
+            })
+            .then(response => response.json())
+            .then(data => {
+                completedOperations++;
+                if (data.success) {
+                    const mealSelect = row.querySelector(`select[data-meal="${meal}"]`);
+                    if (mealSelect) {
+                        mealSelect.value = '';
+                        mealSelect.className = 'meal-select not-marked';
+                    }
+                }
+                checkResetCompletion();
+            })
+            .catch(error => {
+                completedOperations++;
+                console.error('Error:', error);
+                checkResetCompletion();
+            });
+        });
+    });
+
+    function checkResetCompletion() {
+        if (completedOperations === totalOperations) {
+            showToast('✅ All attendance reset to "Not Marked"!', 'success');
+            setTimeout(() => location.reload(), 2000);
+        }
+    }
+}
+
+function updateMessStatusNewLogic(studentId, status) {
+    const messStatusElement = document.getElementById(`mess-status-${studentId}`);
+    if (!messStatusElement) return;
+
+    let statusHTML = '';
+    let statusClass = '';
+    let description = '';
+
+    switch(status) {
+        case 'present':
+            statusHTML = '✅ Present';
+            statusClass = 'status-present';
+            description = 'Any meal attended';
+            break;
+        case 'absent':
+            statusHTML = '❌ Absent';
+            statusClass = 'status-absent';
+            description = 'All meals absent';
+            break;
+        default:
+            statusHTML = '⏳ Not Marked';
+            statusClass = 'status-not-marked';
+            description = 'No meals marked';
+    }
+
+    messStatusElement.innerHTML = `
+        <span class="status-badge ${statusClass}">${statusHTML}</span>
+        <div class="marked-by" style="color: ${status === 'present' ? '#28a745' : status === 'absent' ? '#dc3545' : '#6c757d'};">${description}</div>
+    `;
+}
+
+function showToast(message, type) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = `toast ${type}`;
+    toast.style.display = 'block';
+
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 3000);
+}
+
+function exportAttendance() {
+    const date = document.querySelector('[name="date"]').value;
+    showToast('Export functionality will be implemented soon!', 'info');
+}
+
+function toggleFullWidth() {
+    const container = document.querySelector('.attendance-container');
+    const button = document.getElementById('widthToggle');
+    
+    if (container.style.maxWidth === '1200px') {
+        container.style.maxWidth = '100%';
+        button.textContent = '📐 Toggle Compact View';
+        showToast('Full Width Mode Enabled', 'success');
+    } else {
+        container.style.maxWidth = '1200px';
+        button.textContent = '📐 Toggle Full Width';
+        showToast('Compact Mode Enabled', 'success');
+    }
+}
+</script>
+{% endblock %}

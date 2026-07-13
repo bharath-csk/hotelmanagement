@@ -1,0 +1,33 @@
+/* Replace A logo with H letter */
+.brand-link .brand-image {
+    display: none !important;
+}
+
+.brand-link::before {
+    content: "H";
+    font-size: 28px;
+    font-weight: 900;
+    color: #ffffff;
+    background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 3px 12px rgba(74, 144, 226, 0.4);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Adjust brand text spacing */
+.brand-text {
+    font-weight: 700 !important;
+    margin-left: 5px !important;
+}
+
+/* For sidebar when collapsed */
+.sidebar-mini.sidebar-collapse .brand-link::before {
+    margin-right: 0;
+}

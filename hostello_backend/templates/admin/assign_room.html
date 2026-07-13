@@ -1,0 +1,127 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extrahead %}
+<style>
+    .room-assignment-form {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+
+    .student-info {
+        background: #e7f3ff;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    .room-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+    }
+
+    .room-option {
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: white;
+    }
+
+    .room-option:hover {
+        border-color: #007cba;
+        background: #f0f8ff;
+    }
+
+    .room-option.selected {
+        border-color: #007cba;
+        background: #e7f3ff;
+    }
+
+    .btn-primary {
+        background: #007cba;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="room-assignment-form">
+    <h1>{{ title }}</h1>
+
+    <div class="student-info">
+        <h3>Student Information</h3>
+        <p><strong>Name:</strong> {{ student.full_name }}</p>
+        <p><strong>Admission Number:</strong> {{ student.admission_number }}</p>
+        <p><strong>Email:</strong> {{ student.email }}</p>
+        <p><strong>Mobile:</strong> {{ student.mobile }}</p>
+        <p><strong>Room Preference:</strong> {{ student.room_type }} ({{ student.ac_type }})</p>
+        <p><strong>Program:</strong> {{ student.program }} - {{ student.discipline }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <h3>Select Room to Assign:</h3>
+
+        <div class="room-list">
+            {% for room in available_rooms %}
+            <div class="room-option" onclick="selectRoom('{{ room.room_number }}')">
+                <h4>Room {{ room.room_number }}</h4>
+                <p>{{ room.room_type }} ({{ room.ac_type }})</p>
+                <p>Capacity: {{ room.capacity }}</p>
+                <p>Occupied: {{ room.occupied }}</p>
+                <p>Available: {{ room.available_spots }} spots</p>
+            </div>
+            {% empty %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 20px;">
+                <p>No rooms available matching student preferences.</p>
+                <p>You can create a new room or assign to a different room type.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin: 20px 0;">
+            <label for="room_number">Selected Room Number:</label>
+            <input type="text" name="room_number" id="room_number" required 
+                   placeholder="Click a room above or enter manually">
+        </div>
+
+        <div>
+            <button type="submit" class="btn-primary">Assign Room & Send Email</button>
+            <a href="{% url 'admin:students_student_changelist' %}" 
+               style="margin-left: 10px; padding: 10px 20px; text-decoration: none; 
+                      background: #6c757d; color: white; border-radius: 4px;">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+function selectRoom(roomNumber) {
+    // Remove selected class from all rooms
+    document.querySelectorAll('.room-option').forEach(room => {
+        room.classList.remove('selected');
+    });
+
+    // Add selected class to clicked room
+    event.target.closest('.room-option').classList.add('selected');
+
+    // Set room number in input
+    document.getElementById('room_number').value = roomNumber;
+}
+</script>
+{% endblock %}
